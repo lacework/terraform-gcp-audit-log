@@ -226,8 +226,8 @@ bump_version() {
   fi
 
   log "commiting and pushing the version bump to github"
-  git config --global user.email $git_email 
-  git config --global user.name $git_user
+  git config --global user.email "$git_email"
+  git config --global user.name "$git_user"
   git add VERSION
   git commit -m "version bump to v$VERSION"
   git push origin main
