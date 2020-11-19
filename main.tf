@@ -126,6 +126,7 @@ resource "google_logging_organization_sink" "lacework_organization_sink" {
 }
 
 resource "google_pubsub_subscription_iam_binding" "lacework" {
+  project      = local.project_id
   role         = "roles/pubsub.subscriber"
   members      = ["serviceAccount:${local.service_account_json_key.client_email}"]
   subscription = google_pubsub_subscription.lacework_subscription.name
