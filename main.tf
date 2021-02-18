@@ -13,7 +13,7 @@ locals {
   service_account_name = var.use_existing_service_account ? (
     var.service_account_name
     ) : (
-    length(var.service_account_name) > 0 ? var.service_account_name : "${var.prefix}-lacework-svc-account-${random_id.uniq.hex}"
+    length(var.service_account_name) > 0 ? var.service_account_name : "${var.prefix}-lw-${random_id.uniq.hex}"
   )
   service_account_json_key = jsondecode(var.use_existing_service_account ? (
     base64decode(var.service_account_private_key)
