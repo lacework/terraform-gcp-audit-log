@@ -1,5 +1,5 @@
 # Integrate GCP Organziation with Lacework using Existing Service Account
-The following provides an example of integrating a Google Cloud Project with Lacework for Audit Log analysis using an existing service account.
+The following provides an example of integrating a Google Cloud Project with Lacework for Cloud Audit Log analysis using an existing service account.
 
 ```hcl
 terraform {

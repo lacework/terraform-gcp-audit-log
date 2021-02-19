@@ -1,5 +1,5 @@
 # Integrate GCP Project with Lacework
-The following provides an example of integrating a Google Cloud Project with Lacework for GCP Audit Log analysis.
+The following provides an example of integrating a Google Cloud Project with Lacework for Cloud Audit Log analysis.
 
 ```hcl
 terraform {
