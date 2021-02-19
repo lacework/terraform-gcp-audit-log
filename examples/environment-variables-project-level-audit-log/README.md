@@ -1,5 +1,5 @@
 # Integrate GCP Project with Lacework using Environment Variables
-The following provides an example of integrating a Google Cloud Project with Lacework for GCP Audit Log analysis, and configuring the Terraform Provider for Google and the Terraform Provider for Lacework using environment variables.
+The following provides an example of integrating a Google Cloud Project with Lacework for Audit Log analysis and configuring the Terraform Provider for Google and the Terraform Provider for Lacework using environment variables.
 
 ```
 // This template assumes the default configuration coming from the following
