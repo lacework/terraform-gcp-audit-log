@@ -10,8 +10,8 @@ set -eou pipefail
 
 readonly org_name=lacework
 readonly project_name=terraform-gcp-audit-log
-readonly git_user="Salim Afiune Maya"
-readonly git_email="afiune@lacework.net"
+readonly git_user="Lacework Inc."
+readonly git_email="ops+releng@lacework.net"
 VERSION=$(cat VERSION)
 
 usage() {
