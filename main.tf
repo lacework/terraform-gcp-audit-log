@@ -13,7 +13,7 @@ locals {
   service_account_name = var.use_existing_service_account ? (
     var.service_account_name
     ) : (
-    length(var.service_account_name) > 0 ? var.service_account_name : "${var.prefix}-lw-${random_id.uniq.hex}"
+    length(var.service_account_name) > 0 ? var.service_account_name : "${var.prefix}-${random_id.uniq.hex}"
   )
   service_account_json_key = jsondecode(var.use_existing_service_account ? (
     base64decode(var.service_account_private_key)
@@ -29,6 +29,9 @@ locals {
       "projectOwner:${local.project_id}"
     ]
   }
+  default_audit_log_roles = [
+    "roles/storage.objectViewer"
+  ]
 }
 
 resource "random_id" "uniq" {
@@ -52,9 +55,9 @@ module "lacework_at_svc_account" {
   version              = "~> 0.1.0"
   create               = var.use_existing_service_account ? false : true
   service_account_name = local.service_account_name
+  project_id           = local.project_id
   org_integration      = var.org_integration
   organization_id      = var.organization_id
-  project_id           = local.project_id
 }
 
 resource "google_storage_bucket" "lacework_bucket" {
@@ -80,11 +83,11 @@ resource "google_pubsub_topic" "lacework_topic" {
 
 # By calling this data source we are accessing the storage service
 # account and therefore, Google will created for us. If we don't
-# ask for it, Google doens't create it by default, more docs at:
+# ask for it, Google doesn't create it by default, more docs at:
 # => https://cloud.google.com/storage/docs/projects#service-accounts
 #
 # If the service account is not there, we could add a local-exec
-# provisioner to call an API that is documeted at:
+# provisioner to call an API that is documented at:
 # => https://cloud.google.com/storage-transfer/docs/reference/rest/v1/googleServiceAccounts/get
 data "google_storage_project_service_account" "lw" {
   project = local.project_id
@@ -144,6 +147,13 @@ resource "google_storage_notification" "lacework_notification" {
   ]
 }
 
+resource "google_project_iam_member" "for_lacework_service_account" {
+  for_each = toset(local.default_audit_log_roles)
+  project  = local.project_id
+  role     = each.value
+  member   = "serviceAccount:${local.service_account_json_key.client_email}"
+}
+
 # wait for X seconds for things to settle down in the GCP side
 # before trying to create the Lacework external integration
 resource "time_sleep" "wait_time" {
@@ -151,7 +161,8 @@ resource "time_sleep" "wait_time" {
   depends_on = [
     google_storage_notification.lacework_notification,
     google_pubsub_subscription_iam_binding.lacework,
-    module.lacework_at_svc_account
+    module.lacework_at_svc_account,
+    google_project_iam_member.for_lacework_service_account
   ]
 }
 
