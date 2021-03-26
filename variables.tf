@@ -1,5 +1,5 @@
 variable "required_apis" {
-  type = map
+  type = map(any)
   default = {
     kms               = "cloudkms.googleapis.com"
     dns               = "dns.googleapis.com"
@@ -76,13 +76,13 @@ variable "wait_time" {
 }
 
 variable "enable_ubla" {
-    description = "Boolean for enabled Uniform Bucket Level Access on the audit log bucket"
-    type        = bool
-    default     = false
+  description = "Boolean for enabled Uniform Bucket Level Access on the audit log bucket"
+  type        = bool
+  default     = false
 }
 
 variable "lifecycle_rule_age" {
-    description = "Number of days to keep audit logs in Lacework GCS bucket before deleting.  Leave null to keep indefinitely"
-    type        = number
-    default     = null
+  description = "Number of days to keep audit logs in Lacework GCS bucket before deleting.  Leave null to keep indefinitely"
+  type        = number
+  default     = null
 }

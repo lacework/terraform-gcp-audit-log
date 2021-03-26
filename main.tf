@@ -66,10 +66,10 @@ resource "google_storage_bucket" "lacework_bucket" {
   uniform_bucket_level_access = var.enable_ubla
   dynamic "lifecycle_rule" {
     for_each = compact([var.lifecycle_rule_age])
-    content { 
+    content {
       condition {
         age = var.lifecycle_rule_age
-      } 
+      }
       action {
         type = "Delete"
       }
