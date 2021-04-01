@@ -2,6 +2,7 @@ locals {
   resource_level = var.org_integration ? "ORGANIZATION" : "PROJECT"
   resource_id    = var.org_integration ? var.organization_id : module.lacework_at_svc_account.project_id
   project_id     = data.google_project.selected.project_id
+  create_iam     = length(data.google_iam_policy.existing_policy) > 0 ? (var.use_existing_service_account ? 0 : 1) : 1
   bucket_name = length(var.existing_bucket_name) > 0 ? var.existing_bucket_name : (
     length(google_storage_bucket.lacework_bucket) > 0 ? google_storage_bucket.lacework_bucket[0].name : var.existing_bucket_name
   )
@@ -29,9 +30,6 @@ locals {
       "projectOwner:${local.project_id}"
     ]
   }
-  default_audit_log_roles = [
-    "roles/storage.objectViewer"
-  ]
 }
 
 resource "random_id" "uniq" {
@@ -40,6 +38,16 @@ resource "random_id" "uniq" {
 
 data "google_project" "selected" {
   project_id = var.project_id
+}
+
+data "google_iam_policy" "existing_policy" {
+  binding {
+    role = "roles/storage.objectViewer"
+
+    members = [
+      "serviceAccount:${local.service_account_json_key.client_email}",
+    ]
+  }
 }
 
 resource "google_project_service" "required_apis" {
@@ -158,10 +166,10 @@ resource "google_storage_notification" "lacework_notification" {
 }
 
 resource "google_project_iam_member" "for_lacework_service_account" {
-  for_each = toset(local.default_audit_log_roles)
   project  = local.project_id
-  role     = each.value
+  role     = "roles/storage.objectViewer"
   member   = "serviceAccount:${local.service_account_json_key.client_email}"
+  count    = local.create_iam
 }
 
 # wait for X seconds for things to settle down in the GCP side

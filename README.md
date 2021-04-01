@@ -7,9 +7,6 @@
 
 Terraform module for configuring an integration with Google Cloud Platform Organizations and Projects for Audit Logs analysis.
 
-
-_**Note:** When `use_existing_service_account` is set to true, the required roles must be added manually. Depending on the integration type this may be at Project or Organization level._
-
 ## Required Roles
 ```
 roles/storage.objectViewer
