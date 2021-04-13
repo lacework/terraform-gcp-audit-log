@@ -7,6 +7,13 @@
 
 Terraform module for configuring an integration with Google Cloud Platform Organizations and Projects for Audit Logs analysis.
 
+NOTE: When using an existing Service Account, Terraform cannot work out whether a role has already been applied.
+This mean when running the destroy step, existing roles may be removed from the Service Account. If this Service Account
+is managed by  another Terraform module, you can re-run apply on the other module and this will re-add the role.
+
+Alternatively, it is possible to remove the offending roles from the state file before destroy, preventing the role(s)
+from being removed.
+
 ## Required Roles
 ```
 roles/storage.objectViewer
