@@ -14,6 +14,8 @@ is managed by  another Terraform module, you can re-run apply on the other modul
 Alternatively, it is possible to remove the offending roles from the state file before destroy, preventing the role(s)
 from being removed.
 
+e.g. `terraform state rm 'google_project_iam_binding.for_lacework_service_account'`
+
 ## Required Roles
 ```
 roles/storage.objectViewer
