@@ -39,9 +39,9 @@ cloudresourcemanager.googleapis.com
 |service_account_private_key|The private key in JSON format, base64 encoded (required when use_existing_service_account is set to true)|string|""|false|
 |existing_bucket_name|The name of an existing bucket you want to send the logs to|string|""|false|
 |bucket_force_destroy|Whether to force destroy the bucket and ignore any content.|bool|false|false|
-|lacework_integration_name|The integration name displayed in the Lacework UI.|string|TF GCR|false|
+|lacework_integration_name|The integration name displayed in the Lacework UI.|string|TF audit_log|false|
 |required_apis|The APIs that should be enabled for this integration to be successful.|map(any)|See the Required APIs section|false|
-|prefix|The prefix that will be use at the beginning of every generated resource|string|lw-gcr|false|
+|prefix|The prefix that will be used at the beginning of every generated resource|string|lw-at|false|
 |wait_time|Amount of time to wait before the next resource is provisioned.|string|10s|false|
 |enable_ubla|Boolean for enabled Uniform Bucket Level Access on the audit log bucket|bool|false|false|
 |lifecycle_rule_age|Number of days to keep audit logs in Lacework GCS bucket before deleting.  Leave null to keep indefinitely|number|null|false|

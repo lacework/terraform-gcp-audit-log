@@ -58,7 +58,7 @@ module "lacework_at_svc_account" {
 resource "google_storage_bucket" "lacework_bucket" {
   count                       = length(var.existing_bucket_name) > 0 ? 0 : 1
   project                     = local.project_id
-  name                        = "${var.prefix}-lacework-bucket-${random_id.uniq.hex}"
+  name                        = "${var.prefix}-${random_id.uniq.hex}"
   force_destroy               = var.bucket_force_destroy
   depends_on                  = [google_project_service.required_apis]
   uniform_bucket_level_access = var.enable_ubla
