@@ -40,7 +40,7 @@ provider "lacework" {}
 
 module "gcp_project_audit_log" {
   source               = "lacework/audit-log/gcp"
-  version              = "~> 0.1.1"
+  version              = "~> 1.0"
   bucket_force_destroy = true
 }
 ```

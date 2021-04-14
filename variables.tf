@@ -1,13 +1,10 @@
 variable "required_apis" {
-  type = map
+  type = map(any)
   default = {
-    kms               = "cloudkms.googleapis.com"
-    dns               = "dns.googleapis.com"
-    compute           = "compute.googleapis.com"
-    logging           = "logging.googleapis.com"
-    containers        = "container.googleapis.com"
-    monitoring        = "monitoring.googleapis.com"
-    storage_component = "storage-component.googleapis.com"
+    iam               = "iam.googleapis.com"
+    pubsub            = "pubsub.googleapis.com"
+    serviceusage      = "serviceusage.googleapis.com"
+    resourcemanager   = "cloudresourcemanager.googleapis.com"
   }
 }
 
@@ -73,4 +70,16 @@ variable "wait_time" {
   type        = string
   default     = "10s"
   description = "Amount of time to wait before the next resource is provisioned."
+}
+
+variable "enable_ubla" {
+  description = "Boolean for enabled Uniform Bucket Level Access on the audit log bucket"
+  type        = bool
+  default     = false
+}
+
+variable "lifecycle_rule_age" {
+  description = "Number of days to keep audit logs in Lacework GCS bucket before deleting.  Leave null to keep indefinitely"
+  type        = number
+  default     = null
 }

@@ -7,4 +7,6 @@ module "gcp_organization_level_audit_log" {
   bucket_force_destroy = true
   org_integration      = true
   organization_id      = "my-organization-id"
+  enable_ubla          = true
+  lifecycle_rule_age   = 7
 }

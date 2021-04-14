@@ -1,4 +1,4 @@
-# Integrate GCP Organziation with Lacework
+# Integrate GCP Organization with Lacework
 The following provides an example of integrating a Google Cloud Organization with Lacework for Cloud Audit Log analysis.
 
 ```hcl
@@ -16,7 +16,7 @@ provider "lacework" {}
 
 module "gcp_organization_level_audit_log" {
   source               = "lacework/audit-log/gcp"
-  version              = "~> 0.1.1"
+  version              = "~> 1.0"
   bucket_force_destroy = true
   org_integration      = true
   organization_id      = "my-organization-id"

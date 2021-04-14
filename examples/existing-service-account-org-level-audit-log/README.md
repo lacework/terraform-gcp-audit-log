@@ -1,4 +1,4 @@
-# Integrate GCP Organziation with Lacework using Existing Service Account
+# Integrate GCP Organization with Lacework using Existing Service Account
 The following provides an example of integrating a Google Cloud Project with Lacework for Cloud Audit Log analysis using an existing service account.
 
 ```hcl
@@ -16,7 +16,7 @@ provider "lacework" {}
 
 module "gcp_organization_level_audit_log" {
   source                       = "lacework/audit-log/gcp"
-  version                      = "~> 0.1.1"
+  version                      = "~> 1.0"
   bucket_force_destroy         = true
   use_existing_service_account = true
   service_account_name         = "my-service-account"
