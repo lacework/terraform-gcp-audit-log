@@ -103,6 +103,7 @@ prepare_release() {
   log "preparing new release"
   prerequisites
   remove_tag_version
+  check_for_minor_version_bump
   generate_release_notes
   update_changelog
   push_release
