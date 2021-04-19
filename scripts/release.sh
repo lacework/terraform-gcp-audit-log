@@ -194,8 +194,9 @@ generate_release_notes() {
 
 push_release() {
   log "commiting and pushing the release to github"
+  _version_no_tag=$(echo $VERSION | awk -F. '{printf("%d.%d.%d", $1, $2, $3)}')
   git checkout -B release
-  git commit -am "Release v$VERSION"
+  git commit -am "release: v$_version_no_tag"
   git push origin release
 }
 
