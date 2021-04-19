@@ -64,6 +64,7 @@ trigger_release() {
       log "VERSION ready to be released to 'x.y.z' tag. Triggering a release!"
       log ""
       tag_release
+      sleep 5 # just so github has the new tag available
       bump_version
   fi
 }
