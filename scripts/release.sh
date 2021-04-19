@@ -103,6 +103,7 @@ prepare_release() {
   log "preparing new release"
   prerequisites
   remove_tag_version
+  check_for_minor_version_bump
   generate_release_notes
   update_changelog
   push_release
@@ -210,6 +211,21 @@ open_pull_request() {
   log ""
   log "It is time to review the release!"
   log "    $_pr_url"
+}
+
+release_contains_features() {
+  latest_version=$(find_latest_version)
+  git log --no-merges --pretty="%s" ${latest_version}..main | grep "feat[:(]" >/dev/null
+  return $?
+}
+
+ check_for_minor_version_bump() {
+  if release_contains_features; then
+    log "new feature detected, minor version bump"
+    echo $VERSION | awk -F. '{printf("%d.%d.0", $1, $2+1)}' > VERSION
+    VERSION=$(cat VERSION)
+    log "updated version to v$VERSION"
+  fi
 }
 
 tag_release() {
