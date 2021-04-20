@@ -13,7 +13,7 @@ source scripts/release_helpers.sh
 
 # Required Variables
 readonly org_name=lacework
-readonly project_name=terraform-gcp-gcr
+readonly project_name=terraform-gcp-audit-log
 readonly git_user="Lacework Inc."
 readonly git_email="ops+releng@lacework.net"
 readonly required_files_for_release=(
