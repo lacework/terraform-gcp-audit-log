@@ -1,10 +1,10 @@
 variable "required_apis" {
   type = map(any)
   default = {
-    iam               = "iam.googleapis.com"
-    pubsub            = "pubsub.googleapis.com"
-    serviceusage      = "serviceusage.googleapis.com"
-    resourcemanager   = "cloudresourcemanager.googleapis.com"
+    iam             = "iam.googleapis.com"
+    pubsub          = "pubsub.googleapis.com"
+    serviceusage    = "serviceusage.googleapis.com"
+    resourcemanager = "cloudresourcemanager.googleapis.com"
   }
 }
 

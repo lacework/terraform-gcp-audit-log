@@ -21,12 +21,14 @@ locals {
     base64decode(module.lacework_at_svc_account.private_key)
   ))
   bucket_roles = {
-    "roles/storage.objectViewer"       = ["serviceAccount:${local.service_account_json_key.client_email}"]
-    "roles/storage.objectCreator"      = [local.logging_sink_writer_identity]
-    "roles/storage.legacyBucketReader" = ["projectViewer:${local.project_id}"]
-    "roles/storage.legacyBucketOwner" = [
+    "roles/storage.admin" = [
       "projectEditor:${local.project_id}",
       "projectOwner:${local.project_id}"
+    ]
+    "roles/storage.objectCreator" = [local.logging_sink_writer_identity]
+    "roles/storage.objectViewer" = [
+      "serviceAccount:${local.service_account_json_key.client_email}",
+      "projectViewer:${local.project_id}"
     ]
   }
 }
@@ -155,9 +157,9 @@ resource "google_storage_notification" "lacework_notification" {
 }
 
 resource "google_project_iam_member" "for_lacework_service_account" {
-  project  = local.project_id
-  role     = "roles/storage.objectViewer"
-  member   = "serviceAccount:${local.service_account_json_key.client_email}"
+  project = local.project_id
+  role    = "roles/storage.objectViewer"
+  member  = "serviceAccount:${local.service_account_json_key.client_email}"
 }
 
 # wait for X seconds for things to settle down in the GCP side
