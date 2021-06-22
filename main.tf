@@ -65,7 +65,7 @@ resource "google_storage_bucket" "lacework_bucket" {
   depends_on                  = [google_project_service.required_apis]
   uniform_bucket_level_access = var.enable_ubla
   dynamic "lifecycle_rule" {
-    for_each = compact([var.lifecycle_rule_age])
+    for_each = var.lifecycle_rule_age > 0 ? [1] : []
     content {
       condition {
         age = var.lifecycle_rule_age

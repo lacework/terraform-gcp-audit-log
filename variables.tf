@@ -79,7 +79,7 @@ variable "enable_ubla" {
 }
 
 variable "lifecycle_rule_age" {
-  description = "Number of days to keep audit logs in Lacework GCS bucket before deleting.  Leave null to keep indefinitely"
+  description = "Number of days to keep audit logs in Lacework GCS bucket before deleting. Leave default to keep indefinitely"
   type        = number
-  default     = null
+  default     = -1
 }
