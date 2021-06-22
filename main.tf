@@ -163,10 +163,10 @@ resource "google_project_iam_member" "for_lacework_service_account" {
 }
 
 resource "google_organization_iam_member" "for_lacework_service_account" {
-  count    = var.org_integration ? 1 : 0
-  org_id   = var.organization_id
-  role     = "roles/resourcemanager.organizationViewer"
-  member   = "serviceAccount:${local.service_account_json_key.client_email}"
+  count  = var.org_integration ? 1 : 0
+  org_id = var.organization_id
+  role   = "roles/resourcemanager.organizationViewer"
+  member = "serviceAccount:${local.service_account_json_key.client_email}"
 }
 
 # wait for X seconds for things to settle down in the GCP side
