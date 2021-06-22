@@ -1,7 +1,7 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v2.0.0`.
+Another day, another release. These are the release notes for the version `v2.0.1`.
 
-## Refactor
-* refactor: update roles used for audit log storage bucket (#22) (Mike Laramie)([5db1abf](https://github.com/lacework/terraform-gcp-audit-log/commit/5db1abfb4122d84133a22b6400b9ba7c9aa47815))
+## Bug Fixes
+* fix: Add missing organizationViewer role (#26) (Ross)([88e326b](https://github.com/lacework/terraform-gcp-audit-log/commit/88e326bd90a47094338886dd8024d9ca9d83389d))
 ## Other Changes
-* chore: version bump to v1.0.2-dev (Lacework)([9a76f7d](https://github.com/lacework/terraform-gcp-audit-log/commit/9a76f7d8102682f412764320bc3bdc8eabe99a92))
+* chore: version bump to v2.0.1-dev (Lacework)([9839bea](https://github.com/lacework/terraform-gcp-audit-log/commit/9839bea014db3929366a5773f17455d9d9e6ea0c))
