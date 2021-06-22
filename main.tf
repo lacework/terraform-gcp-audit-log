@@ -177,7 +177,8 @@ resource "time_sleep" "wait_time" {
     google_storage_notification.lacework_notification,
     google_pubsub_subscription_iam_binding.lacework,
     module.lacework_at_svc_account,
-    google_project_iam_member.for_lacework_service_account
+    google_project_iam_member.for_lacework_service_account,
+    google_organization_iam_member.for_lacework_service_account
   ]
 }
 
