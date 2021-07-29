@@ -71,10 +71,13 @@ bump_version() {
   fi
 
   log "commiting and pushing the version bump to github"
-  git config --global user.email $git_email
-  git config --global user.name $git_user
+  if [ "$CI" != "" ]; then
+    git config --global user.email $git_email
+    git config --global user.name $git_user
+    git config --global user.signingkey $GPG_SIGNING_KEY
+  fi
   git_add_version_files
-  git commit -m "chore: version bump to v$VERSION"
+  git commit -sS -m "ci: version bump to v$VERSION"
   git push origin $main_branch
 }
 
@@ -146,9 +149,10 @@ push_release() {
   if [ "$CI" != "" ]; then
     git config --global user.email $git_email
     git config --global user.name $git_user
+    git config --global user.signingkey $GPG_SIGNING_KEY
   fi
   git checkout -B release
-  git commit -am "release: v$_version_no_tag"
+  git commit -sS -am "release: v$_version_no_tag"
   git push origin release -f
 }
 
