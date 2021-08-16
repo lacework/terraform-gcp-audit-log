@@ -1,6 +1,9 @@
 # Local .terraform directories
 **/.terraform/*
 
+# generated via "make ci"
+examples/**/.terraform.lock.hcl
+
 # .tfstate files
 *.tfstate
 *.tfstate.*
