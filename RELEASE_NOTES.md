@@ -1,8 +1,10 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v2.0.2`.
+Another day, another release. These are the release notes for the version `v2.1.0`.
 
-## Bug Fixes
-* fix: avoid required lifecycle_rule_age input (Salim Afiune Maya)([9759bfe](https://github.com/lacework/terraform-gcp-audit-log/commit/9759bfe661829934f497cb97cde41c4275cdcb87))
+## Features
+* feat: custom bucket region support (#32) (Robert Wedd)([7d822e6](https://github.com/lacework/terraform-gcp-audit-log/commit/7d822e6ce89fef071524bd400dd339a7eb2ecb47))
+
 ## Other Changes
-* chore: format main.tf code (Salim Afiune Maya)([230bc17](https://github.com/lacework/terraform-gcp-audit-log/commit/230bc1732e3df5bcd9b5a1a7ceef8a476c50cc18))
-* chore: version bump to v2.0.2-dev (Lacework)([9cb261a](https://github.com/lacework/terraform-gcp-audit-log/commit/9cb261ada36827da1f23d1a612851c251bb36ba2))
+* chore: git ignore .terraform.lock.hcl files (#33) (Salim Afiune)([de70307](https://github.com/lacework/terraform-gcp-audit-log/commit/de7030777f7a33241117427dd82367a0c9f82795))
+* chore: version bump to v2.0.3-dev (Lacework)([996e128](https://github.com/lacework/terraform-gcp-audit-log/commit/996e128d98da39c00a424fdf74bcf77a2c0711ee))
+* ci: sign lacework-releng commits (#30) (Salim Afiune)([f38f50b](https://github.com/lacework/terraform-gcp-audit-log/commit/f38f50b15a36e8c23bd7514890d1cc69fe2a73f3))
