@@ -62,6 +62,7 @@ resource "google_storage_bucket" "lacework_bucket" {
   project                     = local.project_id
   name                        = "${var.prefix}-${random_id.uniq.hex}"
   force_destroy               = var.bucket_force_destroy
+  location                    = var.bucket_region
   depends_on                  = [google_project_service.required_apis]
   uniform_bucket_level_access = var.enable_ubla
   dynamic "lifecycle_rule" {
