@@ -40,6 +40,7 @@ cloudresourcemanager.googleapis.com
 |service_account_name|The Service Account name (required when use_existing_service_account is set to true). This can also be used to specify the new service account name when use_existing_service_account is set to false|string|""|false|
 |service_account_private_key|The private key in JSON format, base64 encoded (required when use_existing_service_account is set to true)|string|""|false|
 |existing_bucket_name|The name of an existing bucket you want to send the logs to|string|""|false|
+|bucket_region|The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA) alternatively you can set a single region or Dual-regions follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations|string|US|false|
 |bucket_force_destroy|Whether to force destroy the bucket and ignore any content.|bool|false|false|
 |lacework_integration_name|The integration name displayed in the Lacework UI.|string|TF audit_log|false|
 |required_apis|The APIs that should be enabled for this integration to be successful.|map(any)|See the Required APIs section|false|
