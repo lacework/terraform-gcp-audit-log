@@ -58,7 +58,7 @@ variable "bucket_force_destroy" {
 variable "bucket_region" {
   type        = string
   default     = "US"
-  description = "The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA). To set single region or Dual region follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations "
+  description = "The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA) alternatively you can set a single region or Dual-regions follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations|string|US|false|"
 }
 
 variable "prefix" {
