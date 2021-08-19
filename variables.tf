@@ -61,10 +61,22 @@ variable "bucket_region" {
   description = "The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA) alternatively you can set a single region or Dual-regions follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations|string|US|false|"
 }
 
+variable "bucket_labels" {
+  type        = map(string)
+  default     = null
+  description = "Set of labels which will be added to the audit log bucket"
+}
+
 variable "prefix" {
   type        = string
   default     = "lw-at"
   description = "The prefix that will be use at the beginning of every generated resource"
+}
+
+variable "labels" {
+  type        = map(string)
+  default     = null
+  description = "Set of labels which will be added to the resources managed by the module"
 }
 
 variable "lacework_integration_name" {
@@ -88,4 +100,16 @@ variable "lifecycle_rule_age" {
   description = "Number of days to keep audit logs in Lacework GCS bucket before deleting. Leave default to keep indefinitely"
   type        = number
   default     = -1
+}
+
+variable "pubsub_topic_labels" {
+  type        = map(string)
+  default     = null
+  description = "Set of labels which will be added to the topic"
+}
+
+variable "pubsub_subscription_labels" {
+  type        = map(string)
+  default     = null
+  description = "Set of labels which will be added to the subscription"
 }
