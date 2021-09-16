@@ -42,12 +42,16 @@ cloudresourcemanager.googleapis.com
 |existing_bucket_name|The name of an existing bucket you want to send the logs to|string|""|false|
 |bucket_region|The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA) alternatively you can set a single region or Dual-regions follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations|string|US|false|
 |bucket_force_destroy|Whether to force destroy the bucket and ignore any content.|bool|false|false|
+|bucket_labels|Set of labels which will be added to the audit log bucket.|map(string)|null|false|
 |lacework_integration_name|The integration name displayed in the Lacework UI.|string|TF audit_log|false|
 |required_apis|The APIs that should be enabled for this integration to be successful.|map(any)|See the Required APIs section|false|
 |prefix|The prefix that will be used at the beginning of every generated resource|string|lw-at|false|
+|labels|Set of labels which will be added to the resources managed by the module|map(string)|null|false|
 |wait_time|Amount of time to wait before the next resource is provisioned.|string|10s|false|
 |enable_ubla|Boolean for enabled Uniform Bucket Level Access on the audit log bucket|bool|false|false|
 |lifecycle_rule_age|Number of days to keep audit logs in Lacework GCS bucket before deleting.  Leave null to keep indefinitely|number|null|false|
+|pubsub_topic_labels|Set of labels which will be added to the topic.|map(string)|null|false|
+|pubsub_subscription_labels|Set of labels which will be added to the subscription.|map(string)|null|false|
 
 
 

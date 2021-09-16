@@ -76,6 +76,7 @@ resource "google_storage_bucket" "lacework_bucket" {
       }
     }
   }
+  labels = merge(var.labels, var.bucket_labels)
 }
 
 resource "google_storage_bucket_iam_binding" "policies" {
@@ -89,6 +90,7 @@ resource "google_pubsub_topic" "lacework_topic" {
   name       = "${var.prefix}-lacework-topic-${random_id.uniq.hex}"
   project    = local.project_id
   depends_on = [google_project_service.required_apis]
+  labels     = merge(var.labels, var.pubsub_topic_labels)
 }
 
 # By calling this data source we are accessing the storage service
@@ -116,6 +118,7 @@ resource "google_pubsub_subscription" "lacework_subscription" {
   topic                      = google_pubsub_topic.lacework_topic.name
   ack_deadline_seconds       = 300
   message_retention_duration = "432000s"
+  labels                     = merge(var.labels, var.pubsub_subscription_labels)
 }
 
 resource "google_logging_project_sink" "lacework_project_sink" {
