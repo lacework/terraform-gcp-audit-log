@@ -67,6 +67,12 @@ variable "bucket_labels" {
   description = "Set of labels which will be added to the audit log bucket"
 }
 
+variable "existing_sink_name" {
+  type        = string
+  default     = ""
+  description = "The name of an existing sink to be re-used for this integration"
+}
+
 variable "prefix" {
   type        = string
   default     = "lw-at"

@@ -5,6 +5,9 @@ locals {
   bucket_name = length(var.existing_bucket_name) > 0 ? var.existing_bucket_name : (
     length(google_storage_bucket.lacework_bucket) > 0 ? google_storage_bucket.lacework_bucket[0].name : var.existing_bucket_name
   )
+  sink_name = length(var.existing_sink_name) > 0 ? var.existing_sink_name : (
+    org_integration > 0 ? "${var.prefix}-lacework-sink-${random_id.uniq.hex}" : "${var.prefix}-lacework-sink-${random_id.uniq.hex}"
+  )
   logging_sink_writer_identity = var.org_integration ? (
     google_logging_organization_sink.lacework_organization_sink[0].writer_identity
     ) : (
@@ -122,9 +125,9 @@ resource "google_pubsub_subscription" "lacework_subscription" {
 }
 
 resource "google_logging_project_sink" "lacework_project_sink" {
-  count                  = var.org_integration ? 0 : 1
+  count                  = length(var.existing_sink_name) > 0 ? 0 : (var.org_integration ? 0 : 1)
   project                = local.project_id
-  name                   = "${var.prefix}-lacework-sink-${random_id.uniq.hex}"
+  name                   = local.sink_name
   destination            = "storage.googleapis.com/${local.bucket_name}"
   unique_writer_identity = true
 
@@ -132,8 +135,8 @@ resource "google_logging_project_sink" "lacework_project_sink" {
 }
 
 resource "google_logging_organization_sink" "lacework_organization_sink" {
-  count            = var.org_integration ? 1 : 0
-  name             = "${var.prefix}-${var.organization_id}-lacework-sink-${random_id.uniq.hex}"
+  count            = length(var.existing_sink_name) > 0 ? 0 : (var.org_integration ? 1 : 0 )
+  name             = local.sink
   org_id           = var.organization_id
   destination      = "storage.googleapis.com/${local.bucket_name}"
   include_children = true
