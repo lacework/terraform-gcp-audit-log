@@ -6,7 +6,7 @@ locals {
     length(google_storage_bucket.lacework_bucket) > 0 ? google_storage_bucket.lacework_bucket[0].name : var.existing_bucket_name
   )
   sink_name = length(var.existing_sink_name) > 0 ? var.existing_sink_name : (
-    var.org_integration > 0 ? "${var.prefix}-lacework-sink-${random_id.uniq.hex}" : "${var.prefix}-lacework-sink-${random_id.uniq.hex}"
+    var.org_integration ? "${var.prefix}-${var.organization_id}-lacework-sink-${random_id.uniq.hex}" : "${var.prefix}-lacework-sink-${random_id.uniq.hex}"
   )
   logging_sink_writer_identity = length(var.existing_sink_name) > 0 ? null : (
     var.org_integration ? (
