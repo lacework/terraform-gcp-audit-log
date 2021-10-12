@@ -23,8 +23,3 @@ output "sink_name" {
   value       = local.sink_name
   description = "The sink name"
 }
-
-output "existing_sink_warning" {
-  value       = length(var.existing_sink_name) > 0 && length(var.existing_bucket_name) > 0 ? "When using a pre-existing sink and pre-existing storage bucket, customers must ensure the bucket is configured as the destination for the sink!" : ""
-  description = "Warning for customers using pre-existing sink and bucket"
-}

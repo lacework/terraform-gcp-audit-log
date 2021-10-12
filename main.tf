@@ -27,25 +27,21 @@ locals {
   ))
   bucket_roles = length(var.existing_sink_name) > 0 ? (
     {
-    "roles/storage.admin" = [
-      "projectEditor:${local.project_id}",
-      "projectOwner:${local.project_id}"
-    ]
-    "roles/storage.objectViewer" = [
-      "serviceAccount:${local.service_account_json_key.client_email}",
-      "projectViewer:${local.project_id}"
-    ]
-  } ) : ({
-    "roles/storage.admin" = [
-      "projectEditor:${local.project_id}",
-      "projectOwner:${local.project_id}"
-    ]
-    "roles/storage.objectCreator" = [local.logging_sink_writer_identity]
-    "roles/storage.objectViewer" = [
-      "serviceAccount:${local.service_account_json_key.client_email}",
-      "projectViewer:${local.project_id}"
-    ]
-  } )
+      "roles/storage.objectViewer" = [
+        "serviceAccount:${local.service_account_json_key.client_email}"
+      ] 
+    } ) : (
+    {
+      "roles/storage.admin" = [
+        "projectEditor:${local.project_id}",
+        "projectOwner:${local.project_id}"
+      ]
+      "roles/storage.objectCreator" = [local.logging_sink_writer_identity]
+      "roles/storage.objectViewer" = [
+        "serviceAccount:${local.service_account_json_key.client_email}",
+        "projectViewer:${local.project_id}"
+      ]
+    } )
 }
 
 resource "random_id" "uniq" {
