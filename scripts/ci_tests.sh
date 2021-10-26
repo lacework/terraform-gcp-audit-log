@@ -9,6 +9,7 @@ set -eou pipefail
 readonly project_name=terraform-gcp-audit-log
 
 TEST_CASES=(
+  examples/existing-bucket-and-sink-org-level-audit-log/
   examples/environment-variables-project-level-audit-log/
   examples/existing-service-account-org-level-audit-log/
   examples/organization-level-audit-log/

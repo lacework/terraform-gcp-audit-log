@@ -18,3 +18,8 @@ output "pubsub_topic_name" {
   value       = google_pubsub_topic.lacework_topic.name
   description = "The PubSub topic name"
 }
+
+output "sink_name" {
+  value       = local.sink_name
+  description = "The sink name"
+}

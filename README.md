@@ -40,7 +40,8 @@ cloudresourcemanager.googleapis.com
 |service_account_name|The Service Account name (required when use_existing_service_account is set to true). This can also be used to specify the new service account name when use_existing_service_account is set to false|string|""|false|
 |service_account_private_key|The private key in JSON format, base64 encoded (required when use_existing_service_account is set to true)|string|""|false|
 |existing_bucket_name|The name of an existing bucket you want to send the logs to|string|""|false|
-|bucket_region|The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA) alternatively you can set a single region or Dual-regions follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations|string|US|false|
+|existing_sink_name|The name of an existing sink that already captures management events. **Note:** If both `existing_bucket_name` and `existing_sink_name` are configured, this module assumes they are correctly configured for log capture.|string|""|false
+|bucket_region|The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA). Alternatively, you can set a single region or Dual-regions follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations|string|US|false|
 |bucket_force_destroy|Whether to force destroy the bucket and ignore any content.|bool|false|false|
 |bucket_labels|Set of labels which will be added to the audit log bucket.|map(string)|null|false|
 |lacework_integration_name|The integration name displayed in the Lacework UI.|string|TF audit_log|false|
