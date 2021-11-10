@@ -119,3 +119,21 @@ variable "pubsub_subscription_labels" {
   default     = null
   description = "Set of labels which will be added to the subscription"
 }
+
+variable "log_bucket" {
+  type        = string
+  default     = ""
+  description = "The name of the bucket that will receive log objects"
+}
+
+variable "log_bucket_location" {
+  type        = string
+  default     = "global"
+  description = "The location of the bucket. Default is global"
+}
+
+variable "log_bucket_retention_days" {
+  type        = number
+  default     = 30
+  description = "The number of days to keep logs before deleting. Default is 30"
+}
