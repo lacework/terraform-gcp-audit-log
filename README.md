@@ -53,6 +53,9 @@ cloudresourcemanager.googleapis.com
 |lifecycle_rule_age|Number of days to keep audit logs in Lacework GCS bucket before deleting.  Leave null to keep indefinitely|number|null|false|
 |pubsub_topic_labels|Set of labels which will be added to the topic.|map(string)|null|false|
 |pubsub_subscription_labels|Set of labels which will be added to the subscription.|map(string)|null|false|
+|log_bucket|The name of the bucket that will receive log objects.|string|""|false|
+|log_bucket_location|The location of the log bucket.|string|global|false|
+|log_bucket_retention_days|The number of days to keep logs in log bucket before deleting.|number|30|false|
 
 
 
