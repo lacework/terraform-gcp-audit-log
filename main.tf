@@ -73,7 +73,7 @@ resource "google_logging_project_bucket_config" "lacework_log_bucket" {
     project        = local.project_id
     location       = var.log_bucket_location
     retention_days = var.log_bucket_retention_days
-    bucket_id      = var.log_bucket
+    bucket_id      = "${var.prefix}-${var.log_bucket}-${random_id.uniq.hex}"
 }
 
 resource "google_storage_bucket" "lacework_bucket" {
