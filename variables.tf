@@ -137,3 +137,9 @@ variable "log_bucket_retention_days" {
   default     = 30
   description = "The number of days to keep logs before deleting. Default is 30"
 }
+
+variable "k8s_filter" {
+  type        = bool
+  default     = true
+  description = "Filter out GKE logs from GCP Audit Log sinks.  Default is true"
+}

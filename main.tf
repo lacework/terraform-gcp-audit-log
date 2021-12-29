@@ -29,8 +29,8 @@ locals {
     {
       "roles/storage.objectViewer" = [
         "serviceAccount:${local.service_account_json_key.client_email}"
-      ] 
-    } ) : (
+      ]
+    }) : (
     {
       "roles/storage.admin" = [
         "projectEditor:${local.project_id}",
@@ -41,7 +41,10 @@ locals {
         "serviceAccount:${local.service_account_json_key.client_email}",
         "projectViewer:${local.project_id}"
       ]
-    } )
+  })
+  log_filter = var.k8s_filter ? (
+    "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.methodName:\"storage.objects\")") : (
+  "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\")")
 }
 
 resource "random_id" "uniq" {
@@ -69,11 +72,11 @@ module "lacework_at_svc_account" {
 }
 
 resource "google_logging_project_bucket_config" "lacework_log_bucket" {
-    count          = length(var.log_bucket) > 0 ? 1 : 0
-    project        = local.project_id
-    location       = var.log_bucket_location
-    retention_days = var.log_bucket_retention_days
-    bucket_id      = "${var.prefix}-${var.log_bucket}-${random_id.uniq.hex}"
+  count          = length(var.log_bucket) > 0 ? 1 : 0
+  project        = local.project_id
+  location       = var.log_bucket_location
+  retention_days = var.log_bucket_retention_days
+  bucket_id      = "${var.prefix}-${var.log_bucket}-${random_id.uniq.hex}"
 }
 
 resource "google_storage_bucket" "lacework_bucket" {
@@ -98,8 +101,8 @@ resource "google_storage_bucket" "lacework_bucket" {
   labels = merge(var.labels, var.bucket_labels)
   dynamic "logging" {
     for_each = length(var.log_bucket) > 0 ? [1] : []
-      content {
-        log_bucket = var.log_bucket
+    content {
+      log_bucket = var.log_bucket
     }
   }
 }
@@ -153,17 +156,17 @@ resource "google_logging_project_sink" "lacework_project_sink" {
   destination            = "storage.googleapis.com/${local.bucket_name}"
   unique_writer_identity = true
 
-  filter = "protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog AND NOT protoPayload.methodName:'storage.objects'"
+  filter = local.log_filter
 }
 
 resource "google_logging_organization_sink" "lacework_organization_sink" {
-  count            = length(var.existing_sink_name) > 0 ? 0 : (var.org_integration ? 1 : 0 )
+  count            = length(var.existing_sink_name) > 0 ? 0 : (var.org_integration ? 1 : 0)
   name             = local.sink_name
   org_id           = var.organization_id
   destination      = "storage.googleapis.com/${local.bucket_name}"
   include_children = true
 
-  filter = "protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog AND NOT protoPayload.methodName:'storage.objects'"
+  filter = local.log_filter
 }
 
 resource "google_pubsub_subscription_iam_binding" "lacework" {
