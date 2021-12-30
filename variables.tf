@@ -140,6 +140,6 @@ variable "log_bucket_retention_days" {
 
 variable "k8s_filter" {
   type        = bool
-  default     = true
-  description = "Filter out GKE logs from GCP Audit Log sinks.  Default is true"
+  default     = false
+  description = "Filter out GKE logs from GCP Audit Log sinks.  Default is false"
 }
