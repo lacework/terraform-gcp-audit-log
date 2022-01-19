@@ -63,7 +63,7 @@ variable "bucket_region" {
 
 variable "bucket_labels" {
   type        = map(string)
-  default     = null
+  default     = {}
   description = "Set of labels which will be added to the audit log bucket"
 }
 
@@ -81,7 +81,7 @@ variable "prefix" {
 
 variable "labels" {
   type        = map(string)
-  default     = null
+  default     = {}
   description = "Set of labels which will be added to the resources managed by the module"
 }
 
@@ -110,13 +110,13 @@ variable "lifecycle_rule_age" {
 
 variable "pubsub_topic_labels" {
   type        = map(string)
-  default     = null
+  default     = {}
   description = "Set of labels which will be added to the topic"
 }
 
 variable "pubsub_subscription_labels" {
   type        = map(string)
-  default     = null
+  default     = {}
   description = "Set of labels which will be added to the subscription"
 }
 
