@@ -1,9 +1,10 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v2.4.0`.
+Another day, another release. These are the release notes for the version `v2.5.0`.
 
 ## Features
-* feat: Add logging block to google_storage_bucket (#40) (Darren)([8143e38](https://github.com/lacework/terraform-gcp-audit-log/commit/8143e386c1abcebebe71a7749b11513ba381d64c))
-## Refactor
-* refactor: Add prefix and random string to bucket_id argument (#41) (Darren)([6437935](https://github.com/lacework/terraform-gcp-audit-log/commit/64379357e3818167514be845575e38d9795e26c6))
+* feat: adding filtering for k8s logs in GCP Audit Logging (#43) (Mike Laramie)([471e7c0](https://github.com/lacework/terraform-gcp-audit-log/commit/471e7c04197a5d5ca46f2aaccb01b9c19e3ae38e))
+## Bug Fixes
+* fix(variables): Set labels vars default to empty map rather than null (Ross)([07bab97](https://github.com/lacework/terraform-gcp-audit-log/commit/07bab97f173f1e891e4a9c888a5d8beda04bb98b))
 ## Other Changes
-* ci: version bump to v2.3.1-dev (Lacework)([5398e96](https://github.com/lacework/terraform-gcp-audit-log/commit/5398e964d823d3de6270be1bb26623d4a740acf7))
+* chore(examples): Update GCP audit-log module examples (Ross)([e0fb6ab](https://github.com/lacework/terraform-gcp-audit-log/commit/e0fb6abbd87a1190566f9ae208fed8b0cfc27e66))
+* ci: version bump to v2.4.1-dev (Lacework)([ef0aacc](https://github.com/lacework/terraform-gcp-audit-log/commit/ef0aacc2a2ced1b5cf3c48a45244d5fbf022d13e))
