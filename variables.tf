@@ -143,3 +143,21 @@ variable "k8s_filter" {
   default     = false
   description = "Filter out GKE logs from GCP Audit Log sinks.  Default is false"
 }
+
+variable "exclude_folders" {
+  type        = bool
+  default     = false
+  description = "Enables logic to exclude a list of folders from the integration. Default is false"
+}
+
+variable "folders_to_exclude" {
+  type        = set(string)
+  default     = []
+  description = "List of root folders to exclude if `exclude_folders` is set to `true`"
+}
+
+variable "include_root_projects" {
+  type        = bool
+  default     = true
+  description = "Enables logic to include root-level projects if `exclude_folders` is set to `true`.  Default is true"
+}

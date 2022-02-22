@@ -9,10 +9,17 @@ locals {
     var.org_integration ? "${var.prefix}-${var.organization_id}-lacework-sink-${random_id.uniq.hex}" : "${var.prefix}-lacework-sink-${random_id.uniq.hex}"
   )
   logging_sink_writer_identity = length(var.existing_sink_name) > 0 ? null : (
-    var.org_integration ? (
-      google_logging_organization_sink.lacework_organization_sink[0].writer_identity
+    (var.org_integration && !var.exclude_folders) ? (
+      [google_logging_organization_sink.lacework_organization_sink[0].writer_identity]
       ) : (
-      google_logging_project_sink.lacework_project_sink[0].writer_identity
+      (var.org_integration && var.exclude_folders) ? (
+        concat(
+          [for v in google_logging_folder_sink.lacework_folder_sink : v.writer_identity],
+          [for v in google_logging_project_sink.lacework_root_project_sink : v.writer_identity]
+        )
+        ) : (
+        [google_logging_project_sink.lacework_project_sink[0].writer_identity]
+      )
     )
   )
   service_account_name = var.use_existing_service_account ? (
@@ -36,7 +43,7 @@ locals {
         "projectEditor:${local.project_id}",
         "projectOwner:${local.project_id}"
       ]
-      "roles/storage.objectCreator" = [local.logging_sink_writer_identity]
+      "roles/storage.objectCreator" = [local.logging_sink_writer_identity[0]]
       "roles/storage.objectViewer" = [
         "serviceAccount:${local.service_account_json_key.client_email}",
         "projectViewer:${local.project_id}"
@@ -45,6 +52,12 @@ locals {
   log_filter = var.k8s_filter ? (
     "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.methodName:\"storage.objects\")") : (
   "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\")")
+  folders = [
+    var.exclude_folders ? setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude) : toset([])
+  ]
+  root_projects = [
+    var.exclude_folders ? toset(data.google_projects.my-org-projects[0].projects[*].project_id) : toset([])
+  ]
 }
 
 resource "random_id" "uniq" {
@@ -160,11 +173,41 @@ resource "google_logging_project_sink" "lacework_project_sink" {
 }
 
 resource "google_logging_organization_sink" "lacework_organization_sink" {
-  count            = length(var.existing_sink_name) > 0 ? 0 : (var.org_integration ? 1 : 0)
+  count            = length(var.existing_sink_name) > 0 ? 0 : ((var.org_integration && !var.exclude_folders) ? 1 : 0)
   name             = local.sink_name
   org_id           = var.organization_id
   destination      = "storage.googleapis.com/${local.bucket_name}"
   include_children = true
+
+  filter = local.log_filter
+}
+
+data "google_folders" "my-org-folders" {
+  count     = (var.org_integration && var.exclude_folders) ? 1 : 0
+  parent_id = "organizations/${var.organization_id}"
+}
+
+data "google_projects" "my-org-projects" {
+  count  = (var.exclude_folders && var.include_root_projects) ? 1 : 0
+  filter = "parent.id=${var.organization_id}"
+}
+
+resource "google_logging_folder_sink" "lacework_folder_sink" {
+  for_each         = local.folders[0]
+  name             = local.sink_name
+  folder           = each.value
+  destination      = "storage.googleapis.com/${local.bucket_name}"
+  include_children = true
+
+  filter = local.log_filter
+}
+
+resource "google_logging_project_sink" "lacework_root_project_sink" {
+  for_each               = local.root_projects[0]
+  project                = each.value
+  name                   = local.sink_name
+  destination            = "storage.googleapis.com/${local.bucket_name}"
+  unique_writer_identity = true
 
   filter = local.log_filter
 }
