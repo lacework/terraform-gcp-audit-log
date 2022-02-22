@@ -43,7 +43,7 @@ locals {
         "projectEditor:${local.project_id}",
         "projectOwner:${local.project_id}"
       ]
-      "roles/storage.objectCreator" = [local.logging_sink_writer_identity[0]]
+      "roles/storage.objectCreator" = local.logging_sink_writer_identity
       "roles/storage.objectViewer" = [
         "serviceAccount:${local.service_account_json_key.client_email}",
         "projectViewer:${local.project_id}"
@@ -53,10 +53,10 @@ locals {
     "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.methodName:\"storage.objects\")") : (
   "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\")")
   folders = [
-    var.exclude_folders ? setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude) : toset([])
+    (var.org_integration && var.exclude_folders) ? setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude) : toset([])
   ]
   root_projects = [
-    var.exclude_folders ? toset(data.google_projects.my-org-projects[0].projects[*].project_id) : toset([])
+    (var.org_integration && var.exclude_folders) ? toset(data.google_projects.my-org-projects[0].projects[*].project_id) : toset([])
   ]
 }
 
