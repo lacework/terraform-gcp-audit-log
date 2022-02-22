@@ -1,5 +1,5 @@
 # Integrate GCP Organization with Lacework
-The following provides an example of integrating a Google Cloud Organization with Lacework for Cloud Audit Log analysis.
+The following provides an example of integrating a Google Cloud Organization with Lacework for Cloud Audit Log analysis, excluding 2 folders from the root integration.
 
 ```hcl
 terraform {
@@ -15,11 +15,17 @@ provider "google" {}
 provider "lacework" {}
 
 module "gcp_organization_level_audit_log" {
-  source               = "lacework/audit-log/gcp"
-  version              = "~> 1.0"
+  source               = "../../"
   bucket_force_destroy = true
   org_integration      = true
   organization_id      = "my-organization-id"
+  enable_ubla          = true
+  lifecycle_rule_age   = 7
+  exclude_folders      = true
+  folders_to_exclude   = [
+    "folders/578370918314", 
+    "folders/1099205162015",
+  ] 
 }
 ```
 
