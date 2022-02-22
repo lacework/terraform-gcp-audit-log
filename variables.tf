@@ -153,7 +153,7 @@ variable "exclude_folders" {
 variable "folders_to_exclude" {
   type        = set(string)
   default     = []
-  description = "List of root folders to exclude if `exclude_folders` is set to `true`"
+  description = "List of root folders to exclude if `exclude_folders` is set to `true`.  Format is 'folders/1234567890'"
 }
 
 variable "include_root_projects" {
