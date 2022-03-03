@@ -13,7 +13,9 @@ TEST_CASES=(
   examples/environment-variables-project-level-audit-log/
   examples/existing-service-account-org-level-audit-log/
   examples/organization-level-audit-log/
+  examples/organization-level-audit-log-exclude-folders/
   examples/project-level-audit-log/
+  examples/project-level-audit-log-with-logging-bucket/
 )
 
 log() {
