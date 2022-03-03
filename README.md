@@ -34,7 +34,7 @@ cloudresourcemanager.googleapis.com
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.31 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 3.0.0, < 5.0.0 |
-| <a name="requirement_lacework"></a> [lacework](#requirement\_lacework) | ~> 0.15 |
+| <a name="requirement_lacework"></a> [lacework](#requirement\_lacework) | ~> 0.2 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | ~> 0.6 |
 
 ## Providers
