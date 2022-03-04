@@ -84,14 +84,6 @@ module "lacework_at_svc_account" {
   project_id           = local.project_id
 }
 
-resource "google_logging_project_bucket_config" "lacework_log_bucket" {
-  count          = length(var.log_bucket) > 0 ? 1 : 0
-  project        = local.project_id
-  location       = var.log_bucket_location
-  retention_days = var.log_bucket_retention_days
-  bucket_id      = "${var.prefix}-${var.log_bucket}-${random_id.uniq.hex}"
-}
-
 resource "google_storage_bucket" "lacework_bucket" {
   count                       = length(var.existing_bucket_name) > 0 ? 0 : 1
   project                     = local.project_id
@@ -112,12 +104,6 @@ resource "google_storage_bucket" "lacework_bucket" {
     }
   }
   labels = merge(var.labels, var.bucket_labels)
-  dynamic "logging" {
-    for_each = length(var.log_bucket) > 0 ? [1] : []
-    content {
-      log_bucket = var.log_bucket
-    }
-  }
 }
 
 resource "google_storage_bucket_iam_binding" "policies" {

@@ -15,7 +15,6 @@ TEST_CASES=(
   examples/organization-level-audit-log/
   examples/organization-level-audit-log-exclude-folders/
   examples/project-level-audit-log/
-  examples/project-level-audit-log-with-logging-bucket/
 )
 
 log() {
