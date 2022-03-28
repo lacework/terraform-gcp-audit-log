@@ -8,11 +8,12 @@ locals {
   sink_name = length(var.existing_sink_name) > 0 ? var.existing_sink_name : (
     var.org_integration ? "${var.prefix}-${var.organization_id}-lacework-sink-${random_id.uniq.hex}" : "${var.prefix}-lacework-sink-${random_id.uniq.hex}"
   )
+  exclude_folders = length(var.folders_to_exclude) != 0
   logging_sink_writer_identity = length(var.existing_sink_name) > 0 ? null : (
-    (var.org_integration && !var.exclude_folders) ? (
+    (var.org_integration && !local.exclude_folders) ? (
       [google_logging_organization_sink.lacework_organization_sink[0].writer_identity]
       ) : (
-      (var.org_integration && var.exclude_folders) ? (
+      (var.org_integration && local.exclude_folders) ? (
         concat(
           [for v in google_logging_folder_sink.lacework_folder_sink : v.writer_identity],
           [for v in google_logging_project_sink.lacework_root_project_sink : v.writer_identity]
@@ -53,10 +54,10 @@ locals {
     "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.methodName:\"storage.objects\")") : (
   "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\")")
   folders = [
-    (var.org_integration && var.exclude_folders) ? setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude) : toset([])
+    (var.org_integration && local.exclude_folders) ? setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude) : toset([])
   ]
   root_projects = [
-    (var.org_integration && var.exclude_folders) ? toset(data.google_projects.my-org-projects[0].projects[*].project_id) : toset([])
+    (var.org_integration && local.exclude_folders) ? toset(data.google_projects.my-org-projects[0].projects[*].project_id) : toset([])
   ]
 }
 
@@ -159,7 +160,7 @@ resource "google_logging_project_sink" "lacework_project_sink" {
 }
 
 resource "google_logging_organization_sink" "lacework_organization_sink" {
-  count            = length(var.existing_sink_name) > 0 ? 0 : ((var.org_integration && !var.exclude_folders) ? 1 : 0)
+  count            = length(var.existing_sink_name) > 0 ? 0 : ((var.org_integration && !local.exclude_folders) ? 1 : 0)
   name             = local.sink_name
   org_id           = var.organization_id
   destination      = "storage.googleapis.com/${local.bucket_name}"
@@ -169,12 +170,12 @@ resource "google_logging_organization_sink" "lacework_organization_sink" {
 }
 
 data "google_folders" "my-org-folders" {
-  count     = (var.org_integration && var.exclude_folders) ? 1 : 0
+  count     = (var.org_integration && local.exclude_folders) ? 1 : 0
   parent_id = "organizations/${var.organization_id}"
 }
 
 data "google_projects" "my-org-projects" {
-  count  = (var.exclude_folders && var.include_root_projects) ? 1 : 0
+  count  = (local.exclude_folders && var.include_root_projects) ? 1 : 0
   filter = "parent.id=${var.organization_id}"
 }
 

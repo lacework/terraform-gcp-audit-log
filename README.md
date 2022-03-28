@@ -32,7 +32,7 @@ cloudresourcemanager.googleapis.com
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.31 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.0 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.4.0, < 5.0.0 |
 | <a name="requirement_lacework"></a> [lacework](#requirement\_lacework) | ~> 0.2 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | ~> 0.6 |
@@ -86,7 +86,6 @@ cloudresourcemanager.googleapis.com
 | <a name="input_bucket_labels"></a> [bucket\_labels](#input\_bucket\_labels) | Set of labels which will be added to the audit log bucket | `map(string)` | `{}` | no |
 | <a name="input_bucket_region"></a> [bucket\_region](#input\_bucket\_region) | The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA) alternatively you can set a single region or Dual-regions follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations\|string\|US\|false\| | `string` | `"US"` | no |
 | <a name="input_enable_ubla"></a> [enable\_ubla](#input\_enable\_ubla) | Boolean for enabling Uniform Bucket Level Access on the audit log bucket.  Default is true | `bool` | `true` | no |
-| <a name="input_exclude_folders"></a> [exclude\_folders](#input\_exclude\_folders) | Enables logic to exclude a list of folders from the integration. Default is false | `bool` | `false` | no |
 | <a name="input_existing_bucket_name"></a> [existing\_bucket\_name](#input\_existing\_bucket\_name) | The name of an existing bucket you want to send the logs to | `string` | `""` | no |
 | <a name="input_existing_sink_name"></a> [existing\_sink\_name](#input\_existing\_sink\_name) | The name of an existing sink to be re-used for this integration | `string` | `""` | no |
 | <a name="input_folders_to_exclude"></a> [folders\_to\_exclude](#input\_folders\_to\_exclude) | List of root folders to exclude if `exclude_folders` is set to `true`.  Format is 'folders/1234567890' | `set(string)` | `[]` | no |

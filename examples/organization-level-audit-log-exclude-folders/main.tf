@@ -14,7 +14,6 @@ module "gcp_organization_level_audit_log" {
   organization_id      = var.organization_id
   enable_ubla          = true
   lifecycle_rule_age   = 7
-  exclude_folders      = true
   folders_to_exclude = [
     "folders/123456789012",
     "folders/345678901234",
