@@ -97,9 +97,9 @@ variable "wait_time" {
 }
 
 variable "enable_ubla" {
-  description = "Boolean for enabled Uniform Bucket Level Access on the audit log bucket"
+  description = "Boolean for enabling Uniform Bucket Level Access on the audit log bucket.  Default is true"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "lifecycle_rule_age" {
@@ -120,26 +120,20 @@ variable "pubsub_subscription_labels" {
   description = "Set of labels which will be added to the subscription"
 }
 
-variable "log_bucket" {
-  type        = string
-  default     = ""
-  description = "The name of the bucket that will receive log objects"
-}
-
-variable "log_bucket_location" {
-  type        = string
-  default     = "global"
-  description = "The location of the bucket. Default is global"
-}
-
-variable "log_bucket_retention_days" {
-  type        = number
-  default     = 30
-  description = "The number of days to keep logs before deleting. Default is 30"
-}
-
 variable "k8s_filter" {
   type        = bool
-  default     = false
-  description = "Filter out GKE logs from GCP Audit Log sinks.  Default is false"
+  default     = true
+  description = "Filter out GKE logs from GCP Audit Log sinks.  Default is true"
+}
+
+variable "folders_to_exclude" {
+  type        = list(string)
+  default     = []
+  description = "List of root folders to exclude if `exclude_folders` is set to `true`.  Format is 'folders/1234567890'"
+}
+
+variable "include_root_projects" {
+  type        = bool
+  default     = true
+  description = "Enables logic to include root-level projects if `exclude_folders` is set to `true`.  Default is true"
 }

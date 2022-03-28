@@ -3,6 +3,7 @@
 
 # generated via "make ci"
 examples/**/.terraform.lock.hcl
+**/.terraform.lock.hcl
 
 # .tfstate files
 *.tfstate

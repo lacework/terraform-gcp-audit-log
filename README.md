@@ -32,8 +32,8 @@ cloudresourcemanager.googleapis.com
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.31 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | ~> 3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.4.0, < 5.0.0 |
 | <a name="requirement_lacework"></a> [lacework](#requirement\_lacework) | ~> 0.2 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | ~> 0.6 |
 
@@ -41,10 +41,10 @@ cloudresourcemanager.googleapis.com
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | ~> 3.0 |
-| <a name="provider_lacework"></a> [lacework](#provider\_lacework) | ~> 0.2 |
-| <a name="provider_random"></a> [random](#provider\_random) | n/a |
-| <a name="provider_time"></a> [time](#provider\_time) | ~> 0.6 |
+| <a name="provider_google"></a> [google](#provider\_google) | 4.11.0 |
+| <a name="provider_lacework"></a> [lacework](#provider\_lacework) | 0.15.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
+| <a name="provider_time"></a> [time](#provider\_time) | 0.7.2 |
 
 ## Modules
 
@@ -56,9 +56,10 @@ cloudresourcemanager.googleapis.com
 
 | Name | Type |
 |------|------|
+| [google_logging_folder_sink.lacework_folder_sink](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/logging_folder_sink) | resource |
 | [google_logging_organization_sink.lacework_organization_sink](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/logging_organization_sink) | resource |
-| [google_logging_project_bucket_config.lacework_log_bucket](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/logging_project_bucket_config) | resource |
 | [google_logging_project_sink.lacework_project_sink](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/logging_project_sink) | resource |
+| [google_logging_project_sink.lacework_root_project_sink](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/logging_project_sink) | resource |
 | [google_organization_iam_member.for_lacework_service_account](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_member) | resource |
 | [google_project_iam_member.for_lacework_service_account](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
 | [google_project_service.required_apis](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_service) | resource |
@@ -72,7 +73,9 @@ cloudresourcemanager.googleapis.com
 | [lacework_integration_gcp_at.default](https://registry.terraform.io/providers/lacework/lacework/latest/docs/resources/integration_gcp_at) | resource |
 | [random_id.uniq](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [time_sleep.wait_time](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+| [google_folders.my-org-folders](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/folders) | data source |
 | [google_project.selected](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/project) | data source |
+| [google_projects.my-org-projects](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/projects) | data source |
 | [google_storage_project_service_account.lw](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/storage_project_service_account) | data source |
 
 ## Inputs
@@ -80,24 +83,23 @@ cloudresourcemanager.googleapis.com
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_bucket_force_destroy"></a> [bucket\_force\_destroy](#input\_bucket\_force\_destroy) | n/a | `bool` | `false` | no |
-| <a name="input_bucket_labels"></a> [bucket\_labels](#input\_bucket\_labels) | Set of labels which will be added to the audit log bucket | `map(string)` | `null` | no |
+| <a name="input_bucket_labels"></a> [bucket\_labels](#input\_bucket\_labels) | Set of labels which will be added to the audit log bucket | `map(string)` | `{}` | no |
 | <a name="input_bucket_region"></a> [bucket\_region](#input\_bucket\_region) | The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA) alternatively you can set a single region or Dual-regions follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations\|string\|US\|false\| | `string` | `"US"` | no |
-| <a name="input_enable_ubla"></a> [enable\_ubla](#input\_enable\_ubla) | Boolean for enabled Uniform Bucket Level Access on the audit log bucket | `bool` | `false` | no |
+| <a name="input_enable_ubla"></a> [enable\_ubla](#input\_enable\_ubla) | Boolean for enabling Uniform Bucket Level Access on the audit log bucket.  Default is true | `bool` | `true` | no |
 | <a name="input_existing_bucket_name"></a> [existing\_bucket\_name](#input\_existing\_bucket\_name) | The name of an existing bucket you want to send the logs to | `string` | `""` | no |
 | <a name="input_existing_sink_name"></a> [existing\_sink\_name](#input\_existing\_sink\_name) | The name of an existing sink to be re-used for this integration | `string` | `""` | no |
-| <a name="input_k8s_filter"></a> [k8s\_filter](#input\_k8s\_filter) | Filter out GKE logs from GCP Audit Log sinks.  Default is false | `bool` | `false` | no |
-| <a name="input_labels"></a> [labels](#input\_labels) | Set of labels which will be added to the resources managed by the module | `map(string)` | `null` | no |
+| <a name="input_folders_to_exclude"></a> [folders\_to\_exclude](#input\_folders\_to\_exclude) | List of root folders to exclude if `exclude_folders` is set to `true`.  Format is 'folders/1234567890' | `set(string)` | `[]` | no |
+| <a name="input_include_root_projects"></a> [include\_root\_projects](#input\_include\_root\_projects) | Enables logic to include root-level projects if `exclude_folders` is set to `true`.  Default is true | `bool` | `true` | no |
+| <a name="input_k8s_filter"></a> [k8s\_filter](#input\_k8s\_filter) | Filter out GKE logs from GCP Audit Log sinks.  Default is true | `bool` | `true` | no |
+| <a name="input_labels"></a> [labels](#input\_labels) | Set of labels which will be added to the resources managed by the module | `map(string)` | `{}` | no |
 | <a name="input_lacework_integration_name"></a> [lacework\_integration\_name](#input\_lacework\_integration\_name) | n/a | `string` | `"TF audit_log"` | no |
 | <a name="input_lifecycle_rule_age"></a> [lifecycle\_rule\_age](#input\_lifecycle\_rule\_age) | Number of days to keep audit logs in Lacework GCS bucket before deleting. Leave default to keep indefinitely | `number` | `-1` | no |
-| <a name="input_log_bucket"></a> [log\_bucket](#input\_log\_bucket) | The name of the bucket that will receive log objects | `string` | `""` | no |
-| <a name="input_log_bucket_location"></a> [log\_bucket\_location](#input\_log\_bucket\_location) | The location of the bucket. Default is global | `string` | `"global"` | no |
-| <a name="input_log_bucket_retention_days"></a> [log\_bucket\_retention\_days](#input\_log\_bucket\_retention\_days) | The number of days to keep logs before deleting. Default is 30 | `number` | `30` | no |
 | <a name="input_org_integration"></a> [org\_integration](#input\_org\_integration) | If set to true, configure an organization level integration | `bool` | `false` | no |
 | <a name="input_organization_id"></a> [organization\_id](#input\_organization\_id) | The organization ID, required if org\_integration is set to true | `string` | `""` | no |
 | <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix that will be use at the beginning of every generated resource | `string` | `"lw-at"` | no |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | A project ID different from the default defined inside the provider | `string` | `""` | no |
-| <a name="input_pubsub_subscription_labels"></a> [pubsub\_subscription\_labels](#input\_pubsub\_subscription\_labels) | Set of labels which will be added to the subscription | `map(string)` | `null` | no |
-| <a name="input_pubsub_topic_labels"></a> [pubsub\_topic\_labels](#input\_pubsub\_topic\_labels) | Set of labels which will be added to the topic | `map(string)` | `null` | no |
+| <a name="input_pubsub_subscription_labels"></a> [pubsub\_subscription\_labels](#input\_pubsub\_subscription\_labels) | Set of labels which will be added to the subscription | `map(string)` | `{}` | no |
+| <a name="input_pubsub_topic_labels"></a> [pubsub\_topic\_labels](#input\_pubsub\_topic\_labels) | Set of labels which will be added to the topic | `map(string)` | `{}` | no |
 | <a name="input_required_apis"></a> [required\_apis](#input\_required\_apis) | n/a | `map(any)` | <pre>{<br>  "iam": "iam.googleapis.com",<br>  "pubsub": "pubsub.googleapis.com",<br>  "resourcemanager": "cloudresourcemanager.googleapis.com",<br>  "serviceusage": "serviceusage.googleapis.com"<br>}</pre> | no |
 | <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | The Service Account name (required when use\_existing\_service\_account is set to true) | `string` | `""` | no |
 | <a name="input_service_account_private_key"></a> [service\_account\_private\_key](#input\_service\_account\_private\_key) | The private key in JSON format, base64 encoded (required when use\_existing\_service\_account is set to true) | `string` | `""` | no |
