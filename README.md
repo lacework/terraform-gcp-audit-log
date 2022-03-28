@@ -88,8 +88,8 @@ cloudresourcemanager.googleapis.com
 | <a name="input_enable_ubla"></a> [enable\_ubla](#input\_enable\_ubla) | Boolean for enabling Uniform Bucket Level Access on the audit log bucket.  Default is true | `bool` | `true` | no |
 | <a name="input_existing_bucket_name"></a> [existing\_bucket\_name](#input\_existing\_bucket\_name) | The name of an existing bucket you want to send the logs to | `string` | `""` | no |
 | <a name="input_existing_sink_name"></a> [existing\_sink\_name](#input\_existing\_sink\_name) | The name of an existing sink to be re-used for this integration | `string` | `""` | no |
-| <a name="input_folders_to_exclude"></a> [folders\_to\_exclude](#input\_folders\_to\_exclude) | List of root folders to exclude if `exclude_folders` is set to `true`.  Format is 'folders/1234567890' | `set(string)` | `[]` | no |
-| <a name="input_include_root_projects"></a> [include\_root\_projects](#input\_include\_root\_projects) | Enables logic to include root-level projects if `exclude_folders` is set to `true`.  Default is true | `bool` | `true` | no |
+| <a name="input_folders_to_exclude"></a> [folders\_to\_exclude](#input\_folders\_to\_exclude) | List of root folders to exclude in an organization-level integration.  Format is 'folders/1234567890' | `set(string)` | `[]` | no |
+| <a name="input_include_root_projects"></a> [include\_root\_projects](#input\_include\_root\_projects) | Enables logic to include root-level projects if excluding folders.  Default is true | `bool` | `true` | no |
 | <a name="input_k8s_filter"></a> [k8s\_filter](#input\_k8s\_filter) | Filter out GKE logs from GCP Audit Log sinks.  Default is true | `bool` | `true` | no |
 | <a name="input_labels"></a> [labels](#input\_labels) | Set of labels which will be added to the resources managed by the module | `map(string)` | `{}` | no |
 | <a name="input_lacework_integration_name"></a> [lacework\_integration\_name](#input\_lacework\_integration\_name) | n/a | `string` | `"TF audit_log"` | no |
