@@ -1,3 +1,11 @@
+# v3.0.0
+
+## Features
+* feat: add folder exclusions (#49) (Mike Laramie)([324c8a4](https://github.com/lacework/terraform-gcp-audit-log/commit/324c8a499794f6a789d583c4c460af9475171215))
+## Other Changes
+* chore: update PR template (#50) (Darren)([3f31afe](https://github.com/lacework/terraform-gcp-audit-log/commit/3f31afee6248d8ab04674c12b964ed210dfd67be))
+* ci: version bump to v2.6.1-dev (Lacework)([386a870](https://github.com/lacework/terraform-gcp-audit-log/commit/386a870d337224f69675fceae8d6dcf9ba733916))
+---
 # v2.6.0
 
 ## Features
