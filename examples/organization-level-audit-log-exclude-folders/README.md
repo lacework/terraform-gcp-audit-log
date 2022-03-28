@@ -1,5 +1,6 @@
 # Integrate GCP Organization with Lacework
-The following provides an example of integrating a Google Cloud Organization with Lacework for Cloud Audit Log analysis, excluding 2 folders from the root integration.
+The following provides an example of integrating a Google Cloud Organization with Lacework for Cloud
+Audit Log analysis, excluding 2 folders from the root integration.
 
 ```hcl
 terraform {
