@@ -129,11 +129,11 @@ variable "k8s_filter" {
 variable "folders_to_exclude" {
   type        = list(string)
   default     = []
-  description = "List of root folders to exclude if `exclude_folders` is set to `true`.  Format is 'folders/1234567890'"
+  description = "List of root folders to exclude in an organization-level integration.  Format is 'folders/1234567890'"
 }
 
 variable "include_root_projects" {
   type        = bool
   default     = true
-  description = "Enables logic to include root-level projects if `exclude_folders` is set to `true`.  Default is true"
+  description = "Enables logic to include root-level projects if excluding folders.  Default is true"
 }
