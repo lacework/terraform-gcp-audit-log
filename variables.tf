@@ -130,6 +130,18 @@ variable "k8s_filter" {
   description = "Filter out GKE logs from GCP Audit Log sinks.  Default is true"
 }
 
+variable "google_workspace_filter" {
+  type        = bool
+  default     = false
+  description = "Filter out Google Workspace login logs from GCP Audit Log sinks.  Default is false"
+}
+
+variable "custom_filter" {
+  type        = string
+  default     = ""
+  description = "Customer defined Audit Log filter which will supersede all other filter options when defined"
+}
+
 variable "folders_to_exclude" {
   type        = list(string)
   default     = []
