@@ -50,9 +50,26 @@ locals {
         "projectViewer:${local.project_id}"
       ]
   })
-  log_filter = var.k8s_filter ? (
-    "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.methodName:\"storage.objects\")") : (
-  "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\")")
+
+  log_filter_map = {
+    default                = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\")"
+    k8s_only               = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.methodName:\"storage.objects\")"
+    workspace_only         = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\") AND NOT (protoPayload.serviceName:\"login.googleapis.com\")"
+    k8s_workspace_combined = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.serviceName:\"login.googleapis.com\") AND NOT (protoPayload.methodName:\"storage.objects\")"
+  }
+
+  log_filter = length(var.custom_filter) > 0 ? (var.custom_filter) : (
+    !var.k8s_filter && !var.google_workspace_filter ? ("${lookup(local.log_filter_map, "default")}") : (
+      var.k8s_filter && !var.google_workspace_filter ?
+      "${lookup(local.log_filter_map, "k8s_only")}" : (
+        !var.k8s_filter && var.google_workspace_filter ?
+        "${lookup(local.log_filter_map, "workspace_only")}" : (
+          "${lookup(local.log_filter_map, "k8s_workspace_combined")}"
+        )
+      )
+    )
+  )
+
   folders = [
     (var.org_integration && local.exclude_folders) ? setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude) : toset([])
   ]
