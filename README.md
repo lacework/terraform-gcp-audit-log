@@ -91,6 +91,8 @@ cloudresourcemanager.googleapis.com
 | <a name="input_folders_to_exclude"></a> [folders\_to\_exclude](#input\_folders\_to\_exclude) | List of root folders to exclude in an organization-level integration.  Format is 'folders/1234567890' | `set(string)` | `[]` | no |
 | <a name="input_include_root_projects"></a> [include\_root\_projects](#input\_include\_root\_projects) | Enables logic to include root-level projects if excluding folders.  Default is true | `bool` | `true` | no |
 | <a name="input_k8s_filter"></a> [k8s\_filter](#input\_k8s\_filter) | Filter out GKE logs from GCP Audit Log sinks.  Default is true | `bool` | `true` | no |
+| <a name="input_google_workspace_filter"></a> [google\_workspace\_filter](#input\_google\_workspace\_filter) | Filter out Google Workspace login logs from GCP Audit Log sinks.  Default is false | `bool` | `false` | no |
+| <a name="input_custom_filter"></a> [custom\_filter](#input\_custom\_filter) | Customer defined Audit Log filter which will supersede all other filter options when present | `string` | `""` | no |
 | <a name="input_labels"></a> [labels](#input\_labels) | Set of labels which will be added to the resources managed by the module | `map(string)` | `{}` | no |
 | <a name="input_lacework_integration_name"></a> [lacework\_integration\_name](#input\_lacework\_integration\_name) | n/a | `string` | `"TF audit_log"` | no |
 | <a name="input_lifecycle_rule_age"></a> [lifecycle\_rule\_age](#input\_lifecycle\_rule\_age) | Number of days to keep audit logs in Lacework GCS bucket before deleting. Leave default to keep indefinitely | `number` | `-1` | no |
