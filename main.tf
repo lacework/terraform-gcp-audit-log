@@ -55,7 +55,7 @@ locals {
     default = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\")"
     k8s_only = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.methodName:\"storage.objects\")"
     workspace_only = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\") AND NOT (protoPayload.serviceName:\"login.googleapis.com\")"
-    k8s_workspace_combined = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.methodName:\"storage.objects\" AND NOT (protoPayload.serviceName:\"login.googleapis.com\")"
+    k8s_workspace_combined = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.serviceName=\"k8s.io\") AND NOT (protoPayload.serviceName:\"login.googleapis.com\") AND NOT (protoPayload.methodName:\"storage.objects\")"
   }
 
   log_filter = length(var.custom_filter) > 0 ? ( var.custom_filter ) : ( 
