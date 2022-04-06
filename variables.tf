@@ -54,6 +54,12 @@ variable "existing_bucket_name" {
   description = "The name of an existing bucket you want to send the logs to"
 }
 
+variable "create_storage_bucket" {
+  type        = bool
+  default     = false
+  description = "Force create storage bucket if var.existing_bucket_name is set"
+}
+
 variable "bucket_force_destroy" {
   type    = bool
   default = false

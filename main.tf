@@ -5,6 +5,9 @@ locals {
   bucket_name = length(var.existing_bucket_name) > 0 ? var.existing_bucket_name : (
     length(google_storage_bucket.lacework_bucket) > 0 ? google_storage_bucket.lacework_bucket[0].name : var.existing_bucket_name
   )
+  create_storage_bucket = var.create_storage_bucket ? true : (
+    length(var.existing_bucket_name) > 0 ? false : true
+  )
   sink_name = length(var.existing_sink_name) > 0 ? var.existing_sink_name : (
     var.org_integration ? "${var.prefix}-${var.organization_id}-lacework-sink-${random_id.uniq.hex}" : "${var.prefix}-lacework-sink-${random_id.uniq.hex}"
   )
@@ -103,9 +106,9 @@ module "lacework_at_svc_account" {
 }
 
 resource "google_storage_bucket" "lacework_bucket" {
-  count                       = length(var.existing_bucket_name) > 0 ? 0 : 1
+  count                       = local.create_storage_bucket ? 1 : 0
   project                     = local.project_id
-  name                        = "${var.prefix}-${random_id.uniq.hex}"
+  name                        = coalesce(var.existing_bucket_name, "${var.prefix}-${random_id.uniq.hex}")
   force_destroy               = var.bucket_force_destroy
   location                    = var.bucket_region
   depends_on                  = [google_project_service.required_apis]
