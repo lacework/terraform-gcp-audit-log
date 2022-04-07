@@ -41,10 +41,10 @@ cloudresourcemanager.googleapis.com
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 4.11.0 |
-| <a name="provider_lacework"></a> [lacework](#provider\_lacework) | 0.15.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
-| <a name="provider_time"></a> [time](#provider\_time) | 0.7.2 |
+| <a name="provider_google"></a> [google](#provider\_google) | >= 4.4.0, < 5.0.0 |
+| <a name="provider_lacework"></a> [lacework](#provider\_lacework) | ~> 0.2 |
+| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| <a name="provider_time"></a> [time](#provider\_time) | ~> 0.6 |
 
 ## Modules
 
@@ -85,7 +85,7 @@ cloudresourcemanager.googleapis.com
 | <a name="input_bucket_force_destroy"></a> [bucket\_force\_destroy](#input\_bucket\_force\_destroy) | n/a | `bool` | `false` | no |
 | <a name="input_bucket_labels"></a> [bucket\_labels](#input\_bucket\_labels) | Set of labels which will be added to the audit log bucket | `map(string)` | `{}` | no |
 | <a name="input_bucket_region"></a> [bucket\_region](#input\_bucket\_region) | The region where the new bucket will be created, valid values for Multi-regions are (EU, US or ASIA) alternatively you can set a single region or Dual-regions follow the naming convention as outlined in the GCP bucket locations documentation https://cloud.google.com/storage/docs/locations#available-locations\|string\|US\|false\| | `string` | `"US"` | no |
-| <a name="input_create_storage_bucket"></a> [create\_storage\_bucket](#input\_create\_storage\_bucket) | Force create storage bucket if var.existing\_bucket\_name is set | `bool` | `false` | no |
+| <a name="input_custom_bucket_name"></a> [custom\_bucket\_name](#input\_custom\_bucket\_name) | Override prefix based storage bucket name generation with custom name | `string` | `null` | no |
 | <a name="input_custom_filter"></a> [custom\_filter](#input\_custom\_filter) | Customer defined Audit Log filter which will supersede all other filter options when defined | `string` | `""` | no |
 | <a name="input_enable_ubla"></a> [enable\_ubla](#input\_enable\_ubla) | Boolean for enabling Uniform Bucket Level Access on the audit log bucket.  Default is true | `bool` | `true` | no |
 | <a name="input_existing_bucket_name"></a> [existing\_bucket\_name](#input\_existing\_bucket\_name) | The name of an existing bucket you want to send the logs to | `string` | `""` | no |
