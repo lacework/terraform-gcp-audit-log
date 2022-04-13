@@ -105,7 +105,7 @@ module "lacework_at_svc_account" {
 resource "google_storage_bucket" "lacework_bucket" {
   count                       = length(var.existing_bucket_name) > 0 ? 0 : 1
   project                     = local.project_id
-  name                        = "${var.prefix}-${random_id.uniq.hex}"
+  name                        = coalesce(var.custom_bucket_name, "${var.prefix}-${random_id.uniq.hex}")
   force_destroy               = var.bucket_force_destroy
   location                    = var.bucket_region
   depends_on                  = [google_project_service.required_apis]

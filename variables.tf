@@ -54,6 +54,12 @@ variable "existing_bucket_name" {
   description = "The name of an existing bucket you want to send the logs to"
 }
 
+variable "custom_bucket_name" {
+  type        = string
+  default     = null
+  description = "Override prefix based storage bucket name generation with custom name"
+}
+
 variable "bucket_force_destroy" {
   type    = bool
   default = false
