@@ -1,8 +1,7 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v3.1.0`.
+Another day, another release. These are the release notes for the version `v3.2.0`.
 
 ## Features
-* feat: customize filter options (#54) (Michael Droessler)([282c31a](https://github.com/lacework/terraform-gcp-audit-log/commit/282c31a068d524415beda5e8f5e19bcfc45dc220))
-* feat: Add project id variable validation (#53) (Tim Arenz)([589f6f3](https://github.com/lacework/terraform-gcp-audit-log/commit/589f6f3e2be95b75147c5c6810f18862d59926ed))
+* feat: add variable to override bucket_name pattern (#57) (frits-v)([4247fc8](https://github.com/lacework/terraform-gcp-audit-log/commit/4247fc873301f3317fa53720cd4594c5074efcc5))
 ## Other Changes
-* ci: version bump to v3.0.1-dev (Lacework)([d00443a](https://github.com/lacework/terraform-gcp-audit-log/commit/d00443adaf2130a756256ff8ca6511b67650ab12))
+* ci: version bump to v3.1.1-dev (Lacework)([46c54f7](https://github.com/lacework/terraform-gcp-audit-log/commit/46c54f7ee1953104a4a2e119801e527493192956))
