@@ -1,5 +1,5 @@
 # Integrate GCP Organization with Lacework
-The following provides an example of integrating a Google Cloud Organization with Lacework for Cloud Audit Log analysis using a log filter which will filter out Google Workspace events.
+The following provides an example of integrating a Google Cloud Organization with Lacework for Cloud Audit Log analysis which will include K8s events.
 
 ```hcl
 terraform {
@@ -17,10 +17,10 @@ provider "lacework" {}
 module "gcp_organization_level_audit_log" {
   source                    = "lacework/audit-log/gcp"
   version                   = "~> 3.0"
-  bucket_force_destroy      = true
-  org_integration           = true
-  organization_id           = "my-organization-id"
-  google_workspace_filter   = true
+  bucket_force_destroy = true
+  org_integration      = true
+  organization_id      = "my-organization-id"
+  k8s_filter           = false
 }
 ```
 

@@ -13,5 +13,5 @@ module "gcp_organization_level_audit_log" {
   organization_id         = var.organization_id
   enable_ubla             = true
   lifecycle_rule_age      = 7
-  google_workspace_filter = true
+  google_workspace_filter = false
 }
