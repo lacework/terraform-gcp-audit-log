@@ -138,8 +138,8 @@ variable "k8s_filter" {
 
 variable "google_workspace_filter" {
   type        = bool
-  default     = false
-  description = "Filter out Google Workspace login logs from GCP Audit Log sinks.  Default is false"
+  default     = true
+  description = "Filter out Google Workspace login logs from GCP Audit Log sinks.  Default is true"
 }
 
 variable "custom_filter" {
