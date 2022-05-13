@@ -17,22 +17,25 @@ from being removed.
 e.g. `terraform state rm 'google_project_iam_binding.for_lacework_service_account'`
 
 ## Required Roles
+
 ```
 roles/storage.objectViewer
 ```
 
 ## Required APIs
+
 ```
 iam.googleapis.com
 pubsub.googleapis.com
 serviceusage.googleapis.com
 cloudresourcemanager.googleapis.com
 ```
+
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.1 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.4.0, < 5.0.0 |
 | <a name="requirement_lacework"></a> [lacework](#requirement\_lacework) | ~> 0.2 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | ~> 0.6 |
