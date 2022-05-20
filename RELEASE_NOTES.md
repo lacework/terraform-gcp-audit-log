@@ -1,7 +1,7 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v3.3.0`.
+Another day, another release. These are the release notes for the version `v3.3.1`.
 
-## Features
-* feat: Default google_workspace_filter to true (Ross)([f7644be](https://github.com/lacework/terraform-gcp-audit-log/commit/f7644be9df2d10aa294e9796c5e82110dc0fad2e))
+## Bug Fixes
+* fix: updated project role logic to respect include_root_projects (#62) (Michael Droessler)([5355f50](https://github.com/lacework/terraform-gcp-audit-log/commit/5355f5091716187ac443da28fd27c3826dd42c51))
 ## Other Changes
-* ci: version bump to v3.2.1-dev (Lacework)([b83fe53](https://github.com/lacework/terraform-gcp-audit-log/commit/b83fe53f89fc19486e57f56d45bb5b022ca3a2a5))
+* ci: version bump to v3.3.1-dev (Lacework)([1784fa7](https://github.com/lacework/terraform-gcp-audit-log/commit/1784fa7878c977ce9b878eecb5ee20f7108769d9))
