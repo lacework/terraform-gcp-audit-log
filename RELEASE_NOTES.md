@@ -1,7 +1,7 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v3.3.1`.
+Another day, another release. These are the release notes for the version `v3.3.2`.
 
 ## Bug Fixes
-* fix: updated project role logic to respect include_root_projects (#62) (Michael Droessler)([5355f50](https://github.com/lacework/terraform-gcp-audit-log/commit/5355f5091716187ac443da28fd27c3826dd42c51))
+* fix: set minimum version of terraform provider to 0.15.1 (#61) (Darren)([9a3dc70](https://github.com/lacework/terraform-gcp-audit-log/commit/9a3dc70c2d34e89e5a9726631a521dfc4987b47b))
 ## Other Changes
-* ci: version bump to v3.3.1-dev (Lacework)([1784fa7](https://github.com/lacework/terraform-gcp-audit-log/commit/1784fa7878c977ce9b878eecb5ee20f7108769d9))
+* ci: version bump to v3.3.2-dev (Lacework)([1966497](https://github.com/lacework/terraform-gcp-audit-log/commit/19664973ef38c3726aa41c41b66ae809e8066760))
