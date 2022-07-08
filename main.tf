@@ -12,13 +12,13 @@ locals {
   logging_sink_writer_identity = length(var.existing_sink_name) > 0 ? null : (
     (var.org_integration && !local.exclude_folders) ? (
       [google_logging_organization_sink.lacework_organization_sink[0].writer_identity]
-      ) : (
+    ) : (
       (var.org_integration && local.exclude_folders) ? (
         concat(
           [for v in google_logging_folder_sink.lacework_folder_sink : v.writer_identity],
           [for v in google_logging_project_sink.lacework_root_project_sink : v.writer_identity]
         )
-        ) : (
+      ) : (
         [google_logging_project_sink.lacework_project_sink[0].writer_identity]
       )
     )
@@ -71,10 +71,21 @@ locals {
   )
 
   folders = [
-    (var.org_integration && local.exclude_folders) ? setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude) : toset([])
+    (var.org_integration && local.exclude_folders) ? (
+      setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude)
+    ) : (
+      var.org_integration && length(folders_to_include) > 0) ? (
+        toset([var.folders_to_include])
+      ) : (
+        toset([])
+      )
   ]
   root_projects = [
-    (var.org_integration && local.exclude_folders && var.include_root_projects) ? toset(data.google_projects.my-org-projects[0].projects[*].project_id) : toset([])
+    (var.org_integration && local.exclude_folders && var.include_root_projects) ? (
+      toset(data.google_projects.my-org-projects[0].projects[*].project_id) 
+    ) : (
+      toset([])
+    )
   ]
 }
 
