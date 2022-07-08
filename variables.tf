@@ -161,7 +161,7 @@ variable "include_root_projects" {
 }
 
 variable "folders_to_include" {
-  type        = list(string)
+  type        = set(string)
   default     = []
   description = "List of root folders to include in an organization-level integration.  Format is 'folders/1234567890'"
 }
