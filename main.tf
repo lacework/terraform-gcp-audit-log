@@ -3,7 +3,6 @@ locals {
   resource_id    = var.org_integration ? var.organization_id : module.lacework_at_svc_account.project_id
   project_id     = data.google_project.selected.project_id
   
-
   bucket_name = length(var.existing_bucket_name) > 0 ? var.existing_bucket_name : (
     length(google_storage_bucket.lacework_bucket) > 0 ? google_storage_bucket.lacework_bucket[0].name : var.existing_bucket_name
   )
