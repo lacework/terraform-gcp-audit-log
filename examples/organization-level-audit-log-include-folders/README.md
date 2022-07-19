@@ -1,7 +1,7 @@
-# Integrate GCP Organization with Lacework Excluding Folder(s)
+# Integrate GCP Folders with Lacework at the Organization level
 
-The following provides an example of integrating a Google Cloud Organization with Lacework for Cloud
-Audit Log analysis, excluding 2 folders from the root integration.
+The following provides an example of integrating two Google Cloud Folders with Lacework for Cloud
+Audit Log analysis at the Organization level.
 
 ```hcl
 terraform {
@@ -25,7 +25,7 @@ module "gcp_organization_level_audit_log" {
   enable_ubla          = true
   lifecycle_rule_age   = 7
 
-  folders_to_exclude = [
+  folders_to_include = [
     "folders/578370918314",
     "folders/1099205162015"
   ]
@@ -33,3 +33,4 @@ module "gcp_organization_level_audit_log" {
 ```
 
 For detailed information on integrating Lacework with Google Cloud see [GCP Compliance and Audit Trail Integration - Terraform From Any Supported Host](https://docs.lacework.com/gcp-compliance-and-audit-log-integration-terraform-from-any-supported-host)
+
