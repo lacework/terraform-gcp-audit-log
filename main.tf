@@ -2,18 +2,23 @@ locals {
   resource_level = var.org_integration ? "ORGANIZATION" : "PROJECT"
   resource_id    = var.org_integration ? var.organization_id : module.lacework_at_svc_account.project_id
   project_id     = data.google_project.selected.project_id
+
   bucket_name = length(var.existing_bucket_name) > 0 ? var.existing_bucket_name : (
     length(google_storage_bucket.lacework_bucket) > 0 ? google_storage_bucket.lacework_bucket[0].name : var.existing_bucket_name
   )
+
   sink_name = length(var.existing_sink_name) > 0 ? var.existing_sink_name : (
     var.org_integration ? "${var.prefix}-${var.organization_id}-lacework-sink-${random_id.uniq.hex}" : "${var.prefix}-lacework-sink-${random_id.uniq.hex}"
   )
-  exclude_folders = length(var.folders_to_exclude) != 0
+
+  exclude_folders  = length(var.folders_to_exclude) != 0
+  explicit_folders = length(var.folders_to_include) != 0
+
   logging_sink_writer_identity = length(var.existing_sink_name) > 0 ? null : (
-    (var.org_integration && !local.exclude_folders) ? (
+    (var.org_integration && !(local.exclude_folders || local.explicit_folders)) ? (
       [google_logging_organization_sink.lacework_organization_sink[0].writer_identity]
       ) : (
-      (var.org_integration && local.exclude_folders) ? (
+      (var.org_integration && (local.exclude_folders || local.explicit_folders)) ? (
         concat(
           [for v in google_logging_folder_sink.lacework_folder_sink : v.writer_identity],
           [for v in google_logging_project_sink.lacework_root_project_sink : v.writer_identity]
@@ -23,16 +28,19 @@ locals {
       )
     )
   )
+
   service_account_name = var.use_existing_service_account ? (
     var.service_account_name
     ) : (
     length(var.service_account_name) > 0 ? var.service_account_name : "${var.prefix}-${random_id.uniq.hex}"
   )
+
   service_account_json_key = jsondecode(var.use_existing_service_account ? (
     base64decode(var.service_account_private_key)
     ) : (
     base64decode(module.lacework_at_svc_account.private_key)
   ))
+
   bucket_roles = length(var.existing_sink_name) > 0 ? (
     {
       "roles/storage.objectViewer" = [
@@ -71,10 +79,22 @@ locals {
   )
 
   folders = [
-    (var.org_integration && local.exclude_folders) ? setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude) : toset([])
+    (var.org_integration && local.exclude_folders) ? (
+      setsubtract(data.google_folders.my-org-folders[0].folders[*].name, var.folders_to_exclude)
+      ) : (
+      var.org_integration && local.explicit_folders) ? (
+      var.folders_to_include
+      ) : (
+      toset([])
+    )
   ]
+
   root_projects = [
-    (var.org_integration && local.exclude_folders && var.include_root_projects) ? toset(data.google_projects.my-org-projects[0].projects[*].project_id) : toset([])
+    (var.org_integration && local.exclude_folders && var.include_root_projects) ? (
+      toset(data.google_projects.my-org-projects[0].projects[*].project_id)
+      ) : (
+      toset([])
+    )
   ]
 }
 
@@ -84,6 +104,16 @@ resource "random_id" "uniq" {
 
 data "google_project" "selected" {
   project_id = var.project_id
+}
+
+data "google_folders" "my-org-folders" {
+  count     = (var.org_integration && local.exclude_folders) ? 1 : 0
+  parent_id = "organizations/${var.organization_id}"
+}
+
+data "google_projects" "my-org-projects" {
+  count  = (local.exclude_folders && var.include_root_projects) ? 1 : 0
+  filter = "parent.id=${var.organization_id}"
 }
 
 resource "google_project_service" "required_apis" {
@@ -177,23 +207,13 @@ resource "google_logging_project_sink" "lacework_project_sink" {
 }
 
 resource "google_logging_organization_sink" "lacework_organization_sink" {
-  count            = length(var.existing_sink_name) > 0 ? 0 : ((var.org_integration && !local.exclude_folders) ? 1 : 0)
+  count            = length(var.existing_sink_name) > 0 ? 0 : ((var.org_integration && !(local.exclude_folders || local.explicit_folders) ? 1 : 0))
   name             = local.sink_name
   org_id           = var.organization_id
   destination      = "storage.googleapis.com/${local.bucket_name}"
   include_children = true
 
   filter = local.log_filter
-}
-
-data "google_folders" "my-org-folders" {
-  count     = (var.org_integration && local.exclude_folders) ? 1 : 0
-  parent_id = "organizations/${var.organization_id}"
-}
-
-data "google_projects" "my-org-projects" {
-  count  = (local.exclude_folders && var.include_root_projects) ? 1 : 0
-  filter = "parent.id=${var.organization_id}"
 }
 
 resource "google_logging_folder_sink" "lacework_folder_sink" {

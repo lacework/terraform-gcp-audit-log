@@ -14,6 +14,7 @@ TEST_CASES=(
   examples/existing-service-account-org-level-audit-log/
   examples/organization-level-audit-log/
   examples/organization-level-audit-log-exclude-folders/
+  examples/organization-level-audit-log-include-folders/
   examples/org-level-custom-filter/
   examples/org-level-google-k8s-events/
   examples/org-level-google-workspace-events/
