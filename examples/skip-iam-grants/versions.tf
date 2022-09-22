@@ -1,12 +1,16 @@
 terraform {
-  required_version = ">= 0.15.1"
+  required_version = ">= 0.15.0"
 
   required_providers {
-    google = ">= 4.4.0, < 5.0.0"
-    time   = "~> 0.6"
+    google = {
+      source = "hashicorp/google"
+      version = "= 4.36.0"
+    }
     lacework = {
       source  = "lacework/lacework"
       version = ">= 0.26.1"
     }
   }
 }
+
+

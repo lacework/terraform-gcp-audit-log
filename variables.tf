@@ -165,3 +165,21 @@ variable "folders_to_include" {
   default     = []
   description = "List of root folders to include in an organization-level integration.  Format is 'folders/1234567890'"
 }
+
+variable "skip_iam_grants" {
+  type        = bool
+  default     = false
+  description = "Skip generation of custom role, and IAM grants to the Service Account, for customers who use IAM policy-as-code external to the Lacework module. WARNING - integration will fail if grants are not in place prior to execution. 'use_existing_service_account' must also be set to `true`. `pubsub_subscription_id` must be supplied."
+}
+
+variable "subscription_id" {
+  type        = string
+  default     = ""
+  description = "The id of an existing google_pubsub_subscription. Required when using `skip_iam_grants`"
+}
+
+variable "topic_name" {
+  type        = string
+  default     = ""
+  description = "The name of an existing google_pubsub_topic. Required when using `skip_iam_grants`"
+}

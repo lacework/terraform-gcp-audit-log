@@ -2,7 +2,6 @@ locals {
   resource_level = var.org_integration ? "ORGANIZATION" : "PROJECT"
   resource_id    = var.org_integration ? var.organization_id : module.lacework_at_svc_account.project_id
   project_id     = data.google_project.selected.project_id
-
   bucket_name = length(var.existing_bucket_name) > 0 ? var.existing_bucket_name : (
     length(google_storage_bucket.lacework_bucket) > 0 ? google_storage_bucket.lacework_bucket[0].name : var.existing_bucket_name
   )
@@ -29,6 +28,10 @@ locals {
     )
   )
 
+  skip_iam_grants            = var.skip_iam_grants && var.use_existing_service_account
+  topic_name                 = local.skip_iam_grants != "" ? var.topic_name : google_pubsub_topic.lacework_topic[0].name
+  pubsub_subscription_id     = local.skip_iam_grants != "" ? var.subscription_id : google_pubsub_subscription.lacework_subscription[0].id
+
   service_account_name = var.use_existing_service_account ? (
     var.service_account_name
     ) : (
@@ -41,7 +44,7 @@ locals {
     base64decode(module.lacework_at_svc_account.private_key)
   ))
 
-  bucket_roles = length(var.existing_sink_name) > 0 ? (
+  bucket_roles = local.skip_iam_grants ? {} : (length(var.existing_sink_name) > 0 ? (
     {
       "roles/storage.objectViewer" = [
         "serviceAccount:${local.service_account_json_key.client_email}"
@@ -57,7 +60,7 @@ locals {
         "serviceAccount:${local.service_account_json_key.client_email}",
         "projectViewer:${local.project_id}"
       ]
-  })
+  }))
 
   log_filter_map = {
     default                = "(protoPayload.@type=type.googleapis.com/google.cloud.audit.AuditLog) AND NOT (protoPayload.methodName:\"storage.objects\")"
@@ -162,6 +165,7 @@ resource "google_storage_bucket_iam_binding" "policies" {
 }
 
 resource "google_pubsub_topic" "lacework_topic" {
+  count      = local.skip_iam_grants ? 0 : 1
   name       = "${var.prefix}-lacework-topic-${random_id.uniq.hex}"
   project    = local.project_id
   depends_on = [google_project_service.required_apis]
@@ -180,17 +184,24 @@ data "google_storage_project_service_account" "lw" {
   project = local.project_id
 }
 
+data "google_pubsub_topic" "lacework_topic" {
+  name = local.topic_name
+}
+
+// Todo: update for skip iam grants. May require existing topic.
 resource "google_pubsub_topic_iam_binding" "topic_publisher" {
+  count   = local.skip_iam_grants ? 0 : 1
   members = ["serviceAccount:${data.google_storage_project_service_account.lw.email_address}"]
   role    = "roles/pubsub.publisher"
   project = local.project_id
-  topic   = google_pubsub_topic.lacework_topic.name
+  topic   = local.topic_name
 }
 
 resource "google_pubsub_subscription" "lacework_subscription" {
+  count                      = local.skip_iam_grants ? 0 : 1
   project                    = local.project_id
   name                       = "${var.prefix}-${local.project_id}-lacework-subscription-${random_id.uniq.hex}"
-  topic                      = google_pubsub_topic.lacework_topic.name
+  topic                      = local.topic_name
   ack_deadline_seconds       = 300
   message_retention_duration = "432000s"
   labels                     = merge(var.labels, var.pubsub_subscription_labels)
@@ -237,32 +248,34 @@ resource "google_logging_project_sink" "lacework_root_project_sink" {
 }
 
 resource "google_pubsub_subscription_iam_binding" "lacework" {
+  count        = local.skip_iam_grants ? 0 : 1
   project      = local.project_id
   role         = "roles/pubsub.subscriber"
   members      = ["serviceAccount:${local.service_account_json_key.client_email}"]
-  subscription = google_pubsub_subscription.lacework_subscription.name
+  subscription = google_pubsub_subscription.lacework_subscription[0].name
 }
 
 resource "google_storage_notification" "lacework_notification" {
   bucket         = local.bucket_name
   payload_format = "JSON_API_V1"
-  topic          = google_pubsub_topic.lacework_topic.id
+  topic          = data.google_pubsub_topic.lacework_topic.id
   event_types    = ["OBJECT_FINALIZE"]
 
   depends_on = [
-    google_pubsub_topic_iam_binding.topic_publisher,
+   // google_pubsub_topic_iam_binding.topic_publisher, Todo: this is now conditional
     google_storage_bucket_iam_binding.policies
   ]
 }
 
 resource "google_project_iam_member" "for_lacework_service_account" {
+  count   = local.skip_iam_grants ? 0 : 1
   project = local.project_id
   role    = "roles/storage.objectViewer"
   member  = "serviceAccount:${local.service_account_json_key.client_email}"
 }
 
 resource "google_organization_iam_member" "for_lacework_service_account" {
-  count  = var.org_integration ? 1 : 0
+  count  = local.skip_iam_grants ? 0 : (var.org_integration ? 1 : 0)
   org_id = var.organization_id
   role   = "roles/resourcemanager.organizationViewer"
   member = "serviceAccount:${local.service_account_json_key.client_email}"
@@ -274,7 +287,7 @@ resource "time_sleep" "wait_time" {
   create_duration = var.wait_time
   depends_on = [
     google_storage_notification.lacework_notification,
-    google_pubsub_subscription_iam_binding.lacework,
+    // google_pubsub_subscription_iam_binding.lacework - Todo: this is now conditional
     module.lacework_at_svc_account,
     google_project_iam_member.for_lacework_service_account,
     google_organization_iam_member.for_lacework_service_account
@@ -285,7 +298,7 @@ resource "lacework_integration_gcp_at" "default" {
   name           = var.lacework_integration_name
   resource_id    = local.resource_id
   resource_level = local.resource_level
-  subscription   = google_pubsub_subscription.lacework_subscription.id
+  subscription   = local.pubsub_subscription_id
   credentials {
     client_id      = local.service_account_json_key.client_id
     private_key_id = local.service_account_json_key.private_key_id

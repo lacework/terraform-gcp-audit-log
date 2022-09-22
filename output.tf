@@ -15,7 +15,7 @@ output "bucket_name" {
 }
 
 output "pubsub_topic_name" {
-  value       = google_pubsub_topic.lacework_topic.name
+  value       = local.topic_name
   description = "The PubSub topic name"
 }
 
