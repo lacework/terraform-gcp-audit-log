@@ -29,8 +29,9 @@ locals {
   )
 
   skip_iam_grants            = var.skip_iam_grants && var.use_existing_service_account
-  topic_name                 = local.skip_iam_grants != "" ? var.topic_name : google_pubsub_topic.lacework_topic[0].name
-  pubsub_subscription_id     = local.skip_iam_grants != "" ? var.subscription_id : google_pubsub_subscription.lacework_subscription[0].id
+  topic_name                 = local.skip_iam_grants && var.topic_name != "" ? var.topic_name : google_pubsub_topic.lacework_topic[0].name
+  topic_id                   = local.skip_iam_grants && var.topic_id != "" ? var.topic_id : google_pubsub_topic.lacework_topic[0].id
+  pubsub_subscription_id     = local.skip_iam_grants && var.subscription_id != "" ? var.subscription_id : google_pubsub_subscription.lacework_subscription[0].id
 
   service_account_name = var.use_existing_service_account ? (
     var.service_account_name
@@ -184,11 +185,6 @@ data "google_storage_project_service_account" "lw" {
   project = local.project_id
 }
 
-data "google_pubsub_topic" "lacework_topic" {
-  name = local.topic_name
-}
-
-// Todo: update for skip iam grants. May require existing topic.
 resource "google_pubsub_topic_iam_binding" "topic_publisher" {
   count   = local.skip_iam_grants ? 0 : 1
   members = ["serviceAccount:${data.google_storage_project_service_account.lw.email_address}"]
@@ -258,11 +254,10 @@ resource "google_pubsub_subscription_iam_binding" "lacework" {
 resource "google_storage_notification" "lacework_notification" {
   bucket         = local.bucket_name
   payload_format = "JSON_API_V1"
-  topic          = data.google_pubsub_topic.lacework_topic.id
+  topic          = local.topic_id
   event_types    = ["OBJECT_FINALIZE"]
 
   depends_on = [
-   // google_pubsub_topic_iam_binding.topic_publisher, Todo: this is now conditional
     google_storage_bucket_iam_binding.policies
   ]
 }
@@ -287,7 +282,6 @@ resource "time_sleep" "wait_time" {
   create_duration = var.wait_time
   depends_on = [
     google_storage_notification.lacework_notification,
-    // google_pubsub_subscription_iam_binding.lacework - Todo: this is now conditional
     module.lacework_at_svc_account,
     google_project_iam_member.for_lacework_service_account,
     google_organization_iam_member.for_lacework_service_account

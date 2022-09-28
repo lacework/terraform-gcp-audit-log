@@ -4,8 +4,10 @@ The following provides an example of integrating a Google Cloud Project with Lac
 
 Skip Iam Grants requires
 - Supplying your own service account with correct roles. For details see [Here](https://docs.lacework.com/gcp-compliance-and-audit-log-integration-terraform-from-any-supported-host) 
-- Supplying your own Topic. The Service Account supplied must have  `roles/pubsub.publisher`
-- Supplying your own Subscription. The Service Account supplied must have `roles/pubsub.subscriber`
+- Supplying your own Topic.
+- Supplying your own Subscription.
+- Supplying your own Storage Bucket. 
+- Supplying your own Log Sink.
 
 ```hcl
 provider "google" {}
@@ -16,10 +18,14 @@ module "gcp_organization_level_audit_log" {
   source                       = "../../"
   bucket_force_destroy         = true
   use_existing_service_account = true
-  service_account_name         = "my-service-account"
+  service_account_name         = "my-service-account-name"
   service_account_private_key  = "my-private-key"
   skip_iam_grants              = true 
-  topic_name                   = "lacework-topic-name"
-  subscription_id              = "lacework-subscription-id"
+  topic_name                   = "google-pubsub-topic-name"
+  topic_id                     = "google-pubsub-topic-id"
+  subscription_id              = "google-pubsub-subscription-id"
+  existing_bucket_name         = "google-storage-bucket-name"
+  existing_sink_name           = "google-logging-project-sink-name"
+  wait_time                    = "60s"
 }
 ```
