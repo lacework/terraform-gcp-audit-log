@@ -37,7 +37,7 @@ cloudresourcemanager.googleapis.com
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.1 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.4.0, < 5.0.0 |
-| <a name="requirement_lacework"></a> [lacework](#requirement\_lacework) | ~> 0.2 |
+| <a name="requirement_lacework"></a> [lacework](#requirement\_lacework) | >= 0.26.1 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | ~> 0.6 |
 
 ## Providers
@@ -45,7 +45,7 @@ cloudresourcemanager.googleapis.com
 | Name | Version |
 |------|---------|
 | <a name="provider_google"></a> [google](#provider\_google) | >= 4.4.0, < 5.0.0 |
-| <a name="provider_lacework"></a> [lacework](#provider\_lacework) | ~> 0.2 |
+| <a name="provider_lacework"></a> [lacework](#provider\_lacework) | >= 0.26.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | n/a |
 | <a name="provider_time"></a> [time](#provider\_time) | ~> 0.6 |
 
@@ -110,6 +110,10 @@ cloudresourcemanager.googleapis.com
 | <a name="input_required_apis"></a> [required\_apis](#input\_required\_apis) | n/a | `map(any)` | <pre>{<br>  "iam": "iam.googleapis.com",<br>  "pubsub": "pubsub.googleapis.com",<br>  "resourcemanager": "cloudresourcemanager.googleapis.com",<br>  "serviceusage": "serviceusage.googleapis.com"<br>}</pre> | no |
 | <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | The Service Account name (required when use\_existing\_service\_account is set to true) | `string` | `""` | no |
 | <a name="input_service_account_private_key"></a> [service\_account\_private\_key](#input\_service\_account\_private\_key) | The private key in JSON format, base64 encoded (required when use\_existing\_service\_account is set to true) | `string` | `""` | no |
+| <a name="input_skip_iam_grants"></a> [skip\_iam\_grants](#input\_skip\_iam\_grants) | Skip generation of custom role, and IAM grants to the Service Account, for customers who use IAM policy-as-code external to the Lacework module. WARNING - integration will fail if grants are not in place prior to execution. 'use\_existing\_service\_account' must also be set to `true`. `subscription_id` must be supplied. | `bool` | `false` | no |
+| <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | The id of an existing google\_pubsub\_subscription. Required when using `skip_iam_grants` | `string` | `""` | no |
+| <a name="input_topic_id"></a> [topic\_id](#input\_topic\_id) | The id of an existing google\_pubsub\_topic. Required when using `skip_iam_grants` | `string` | `""` | no |
+| <a name="input_topic_name"></a> [topic\_name](#input\_topic\_name) | The name of an existing google\_pubsub\_topic. Required when using `skip_iam_grants` | `string` | `""` | no |
 | <a name="input_use_existing_service_account"></a> [use\_existing\_service\_account](#input\_use\_existing\_service\_account) | Set this to true to use an existing Service Account | `bool` | `false` | no |
 | <a name="input_wait_time"></a> [wait\_time](#input\_wait\_time) | Amount of time to wait before the next resource is provisioned. | `string` | `"10s"` | no |
 
