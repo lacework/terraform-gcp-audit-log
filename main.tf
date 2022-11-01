@@ -91,7 +91,10 @@ locals {
 
   root_projects = [
     (var.org_integration && local.exclude_folders && var.include_root_projects) ? (
-      toset(data.google_projects.my-org-projects[0].projects[*].project_id)
+      toset([
+        for p in data.google_projects.my-org-projects[0].projects : p.project_id
+        if p.lifecycle_state != "DELETE_REQUESTED"
+        ])
       ) : (
       toset([])
     )
