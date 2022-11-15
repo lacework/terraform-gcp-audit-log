@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.15.1"
 
   required_providers {
-    google = ">= 4.4.0, < 4.41.0"
+    google = ">= 4.4.0, < 5.0.0"
     time   = "~> 0.6"
     lacework = {
       source  = "lacework/lacework"
