@@ -1,7 +1,7 @@
 locals {
   resource_level = var.org_integration ? "ORGANIZATION" : "PROJECT"
   resource_id    = var.org_integration ? var.organization_id : module.lacework_at_svc_account.project_id
-  project_id     = length(var.project_id) > 0 ? var.project_id : data.google_project.selected.project_id
+  project_id     = length(var.project_id) > 0 ? var.project_id : data.google_project.selected[0].project_id
 
   bucket_name = length(var.existing_bucket_name) > 0 ? var.existing_bucket_name : (
     length(google_storage_bucket.lacework_bucket) > 0 ? google_storage_bucket.lacework_bucket[0].name : var.existing_bucket_name
@@ -102,7 +102,9 @@ resource "random_id" "uniq" {
   byte_length = 4
 }
 
-data "google_project" "selected" {}
+data "google_project" "selected" {
+  count = length(var.project_id) > 0 ? 0 : 1
+}
 
 data "google_folders" "my-org-folders" {
   count     = (var.org_integration && local.exclude_folders) ? 1 : 0
