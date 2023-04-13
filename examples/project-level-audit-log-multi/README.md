@@ -1,11 +1,11 @@
-# Integrate Multiple GCP Project with Lacework
-The following provides an example of integrating multiple Google Cloud Project with Lacework for Cloud Audit Log analysis.
+# Integrate Multiple GCP Projects with Lacework
+The following provides an example of integrating multiple Google Cloud projects with Lacework for cloud audit log analysis.
 
 The fields required for this example are:
 
 | Name       | Description                                                                                 | Type     |
 |------------|---------------------------------------------------------------------------------------------|----------|
-| `projects` | Map of projects which will be used to deploy required resources for each integrations | `map` |
+| `projects` | Map of projects that will be used to deploy required resources for each integration | `map` |
 
 
 ```hcl
@@ -39,4 +39,4 @@ $ terraform init
 $ GOOGLE_CREDENTIALS=account.json terraform apply
 ```
 
-For detailed information on integrating Lacework with Google Cloud see [GCP Compliance and Audit Trail Integration - Configure Multiple Porjects with Terraform](https://docs.lacework.com/onboarding/gcp-compliance-and-audit-log-integration-terraform-using-google-cloud-shell#configure-multiple-projects-with-terraform)
+For detailed information on integrating Lacework with Google Cloud, see [GCP Compliance and Audit Trail Integration - Configure Multiple Projects with Terraform](https://docs.lacework.com/onboarding/gcp-compliance-and-audit-log-integration-terraform-using-google-cloud-shell#configure-multiple-projects-with-terraform)
