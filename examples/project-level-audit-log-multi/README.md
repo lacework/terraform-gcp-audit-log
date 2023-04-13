@@ -5,7 +5,7 @@ The fields required for this example are:
 
 | Name       | Description                                                                                 | Type     |
 |------------|---------------------------------------------------------------------------------------------|----------|
-| `projects` | The id of each Project, which will be used to deploy required resources for the integration | `map` |
+| `projects` | Map of projects which will be used to deploy required resources for each integrations | `map` |
 
 
 ```hcl
@@ -25,7 +25,8 @@ variable "projects" {
 }
 
 module "gcp_audit_log" {
-  source = "../../"
+  source = "lacework/audit-log/gcp"
+  version = "~> 3.0"
 
   for_each   = var.projects
   project_id = each.key
@@ -35,7 +36,7 @@ module "gcp_audit_log" {
 Run Terraform:
 ```
 $ terraform init
-$ GOOGLE_CREDENTIALS=account.json GOOGLE_PROJECT=my-project terraform apply
+$ GOOGLE_CREDENTIALS=account.json terraform apply
 ```
 
 For detailed information on integrating Lacework with Google Cloud see [GCP Compliance and Audit Trail Integration - Configure Multiple Porjects with Terraform](https://docs.lacework.com/onboarding/gcp-compliance-and-audit-log-integration-terraform-using-google-cloud-shell#configure-multiple-projects-with-terraform)
