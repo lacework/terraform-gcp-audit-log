@@ -45,9 +45,15 @@ lint_tests() {
   terraform fmt -check
 }
 
+sec_tests() {
+  # TODO: replace with `lacework iac tf-scan tfsec -m MEDIUM`
+  tfsec -m MEDIUM
+}
+
 main() {
   lint_tests
   integration_tests
+  sec_tests
 }
 
 main || exit 99
