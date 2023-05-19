@@ -1,3 +1,17 @@
+# v3.4.3
+
+## Bug Fixes
+* fix: avoid asking for project_id when is not needed (#79) (Salim Afiune)([eb5f4cb](https://github.com/lacework/terraform-gcp-audit-log/commit/eb5f4cbfb3317065b2b94822202c0e8a8cd14aef))
+## Other Changes
+* ci: version bump to v3.4.3-dev (Lacework)([68202f4](https://github.com/lacework/terraform-gcp-audit-log/commit/68202f4793a38a7f8bae2b43a42baa516f1958e9))
+---
+# v3.4.2
+
+## Bug Fixes
+* fix: empty project_id in google_project data source (#77) (Salim Afiune)([92261b8](https://github.com/lacework/terraform-gcp-audit-log/commit/92261b8912ca1f9ff54b7b9756194625c59182cd))
+## Other Changes
+* ci: version bump to v3.4.2-dev (Lacework)([91fae7a](https://github.com/lacework/terraform-gcp-audit-log/commit/91fae7af2b34c34ad70f866a3f4ff3c3249e417e))
+---
 # v3.4.1
 
 ## Documentation Updates
