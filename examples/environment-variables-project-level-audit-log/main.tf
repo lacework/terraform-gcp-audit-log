@@ -26,6 +26,5 @@ provider "google" {}
 provider "lacework" {}
 
 module "gcp_project_audit_log" {
-  source               = "../../"
-  bucket_force_destroy = true
+  source = "../../"
 }

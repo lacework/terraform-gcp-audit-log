@@ -25,7 +25,7 @@ variable "projects" {
 }
 
 module "gcp_audit_log" {
-  source = "lacework/audit-log/gcp"
+  source  = "lacework/audit-log/gcp"
   version = "~> 3.0"
 
   for_each   = var.projects
