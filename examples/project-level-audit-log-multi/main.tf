@@ -6,8 +6,8 @@ provider "lacework" {}
 
 variable "projects" {
   description = "Map of project configuration with Lacework."
-  type        = map
-  default     = {
+  type        = map(any)
+  default = {
     project-id-1 = "first project",
     project-id-2 = "second project"
   }

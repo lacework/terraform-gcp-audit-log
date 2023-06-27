@@ -7,8 +7,8 @@ variable "organization_id" {
 }
 
 module "gcp_organization_level_audit_log" {
-  source                  = "../../"
-  bucket_force_destroy    = true
+  source = "../../"
+
   org_integration         = true
   organization_id         = var.organization_id
   enable_ubla             = true

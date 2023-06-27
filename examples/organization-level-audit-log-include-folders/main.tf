@@ -7,13 +7,12 @@ variable "organization_id" {
 }
 
 module "gcp_organization_level_audit_log" {
-  source               = "../../"
-  bucket_force_destroy = true
-  org_integration      = true
-  project_id           = "abc-demo-project-123"
-  organization_id      = var.organization_id
-  enable_ubla          = true
-  lifecycle_rule_age   = 7
+  source = "../../"
+
+  org_integration    = true
+  project_id         = "abc-demo-project-123"
+  organization_id    = var.organization_id
+  lifecycle_rule_age = 7
 
   folders_to_include = [
     "folders/123456789012",

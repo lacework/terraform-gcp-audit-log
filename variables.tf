@@ -61,8 +61,9 @@ variable "custom_bucket_name" {
 }
 
 variable "bucket_force_destroy" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = true
+  description = "Force destroy bucket (if disabled, terraform will not be able do destroy non-empty bucket)"
 }
 
 variable "bucket_region" {

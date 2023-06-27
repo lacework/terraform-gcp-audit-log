@@ -17,17 +17,17 @@ provider "google" {}
 provider "lacework" {}
 
 module "gcp_organization_level_audit_log" {
-  source               = "lacework/audit-log/gcp"
-  version              = "~> 3.4"
-  bucket_force_destroy = true
-  org_integration      = true
-  organization_id      = "my-organization-id"
-  enable_ubla          = true
-  lifecycle_rule_age   = 7
+  source  = "lacework/audit-log/gcp"
+  version = "~> 3.4"
+
+  org_integration    = true
+  project_id         = "abc-demo-project-123"
+  organization_id    = var.organization_id
+  lifecycle_rule_age = 7
 
   folders_to_include = [
-    "folders/578370918314",
-    "folders/1099205162015"
+    "folders/123456789012",
+    "folders/345678901234"
   ]
 }
 ```
