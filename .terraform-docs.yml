@@ -1,0 +1,4 @@
+formatter: "markdown"
+version: "0.16.0"
+output:
+  file: README.md
