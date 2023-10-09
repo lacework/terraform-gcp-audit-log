@@ -1,0 +1,29 @@
+name: Test that terraform docs has been run
+on: push
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+    - name: Install terraform-docs
+      run: curl -L https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-linux-amd64.tar.gz | (cd /usr/local/bin; tar zxvf -; chmod +x /usr/local/bin/terraform-docs)
+    - name: store hash of orig README.md
+      id: old_hash
+      run: echo "README_HASH=$(md5sum README.md)" >> $GITHUB_OUTPUT
+    - name: Update README.md using terraform-docs make target
+      run: make terraform-docs
+    - name: store hash of new README.md
+      id: new_hash
+      run: echo "README_HASH=$(md5sum README.md)" >> $GITHUB_OUTPUT
+    - name: echo hashes
+      run: |
+        echo ${{ steps.old_hash.outputs.README_HASH }}
+        echo ${{ steps.new_hash.outputs.README_HASH }}
+    - name: test to see of hashs are the same
+      if: ${{ steps.old_hash.outputs.README_HASH != steps.new_hash.outputs.README_HASH }}
+      uses: actions/github-script@v6
+      with:
+        script: |
+          core.setFailed('Please run "make terraform-docs" and try again')
