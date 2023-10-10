@@ -30,13 +30,13 @@ pubsub.googleapis.com
 serviceusage.googleapis.com
 cloudresourcemanager.googleapis.com
 ```
-
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.1 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.4.0, < 5.0.0 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | ~> 4.4 |
 | <a name="requirement_lacework"></a> [lacework](#requirement\_lacework) | ~> 1.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | ~> 0.6 |
 
@@ -44,7 +44,7 @@ cloudresourcemanager.googleapis.com
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | >= 4.4.0, < 5.0.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | ~> 4.4 |
 | <a name="provider_lacework"></a> [lacework](#provider\_lacework) | ~> 1.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | n/a |
 | <a name="provider_time"></a> [time](#provider\_time) | ~> 0.6 |
@@ -122,3 +122,4 @@ cloudresourcemanager.googleapis.com
 | <a name="output_service_account_name"></a> [service\_account\_name](#output\_service\_account\_name) | The Service Account name |
 | <a name="output_service_account_private_key"></a> [service\_account\_private\_key](#output\_service\_account\_private\_key) | The private key in JSON format, base64 encoded |
 | <a name="output_sink_name"></a> [sink\_name](#output\_sink\_name) | The sink name |
+<!-- END_TF_DOCS -->

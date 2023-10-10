@@ -18,3 +18,8 @@ ci: ## *CI ONLY* Runs tests on CI pipeline
 .PHONY: release
 release: ci ## *CI ONLY* Prepares a release of the Terraform module
 	scripts/release.sh prepare
+
+.PHONY: terraform-docs
+terraform-docs:
+	scripts/terraform-docs.sh
+

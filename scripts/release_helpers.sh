@@ -1,6 +1,6 @@
 #
 # Name::        release_helpers.sh
-# Description:: A set of helper funtions to be used by our release.sh script
+# Description:: A set of helper functions to be used by our release.sh script
 # Author::      Salim Afiune Maya (<afiune@lacework.net>)
 #
 
@@ -137,6 +137,7 @@ prepare_release() {
   prerequisites
   remove_tag_version
   check_for_minor_version_bump
+  generate_readme
   generate_release_notes
   update_changelog
   push_release
@@ -190,6 +191,10 @@ generate_release_notes() {
   echo "Another day, another release. These are the release notes for the version \`v$VERSION\`." >> RELEASE_NOTES.md
   echo "" >> RELEASE_NOTES.md
   echo "$(cat CHANGES.md)" >> RELEASE_NOTES.md
+}
+
+generate_readme() {
+  make terraform-docs
 }
 
 load_list_of_changes() {
