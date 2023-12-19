@@ -16,7 +16,7 @@ provider "lacework" {}
 
 module "gcp_organization_level_audit_log" {
   source  = "lacework/audit-log/gcp"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   org_integration         = true
   organization_id         = "my-organization-id"
