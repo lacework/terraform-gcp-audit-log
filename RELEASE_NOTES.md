@@ -1,10 +1,10 @@
 # Release Notes
-Another day, another release. These are the release notes for the version `v3.4.4`.
+Another day, another release. These are the release notes for the version `v4.0.0`.
 
+## Refactor
+* refactor: allows upgrading the google provider to 5.x (#87) (Laurent Raufaste)([3515d8d](https://github.com/lacework/terraform-gcp-audit-log/commit/3515d8d34b0ecc1096748a6e65bd44f90e3e3e56))
 ## Documentation Updates
-* docs: multi project (#81) (jonathan stewart)([63b2659](https://github.com/lacework/terraform-gcp-audit-log/commit/63b2659dc517f1bb63a8512229218940023085f3))
+* docs(readme): add terraform docs automation (#86) (Timothy MacDonald)([781e536](https://github.com/lacework/terraform-gcp-audit-log/commit/781e53640f9d35f320c0d7260fd7fdf8b6617296))
 ## Other Changes
-* chore: enable bucket_force_destroy by default (#84) (Salim Afiune)([ef49043](https://github.com/lacework/terraform-gcp-audit-log/commit/ef490437a1c15f1497974b84ff43f9963ae26013))
-* chore: use pessimistic operator for google provider (#76) (Laurent Raufaste)([a1f12cb](https://github.com/lacework/terraform-gcp-audit-log/commit/a1f12cb91ae2e8a0b0a0955c5f2368bf0140b82a))
-* ci: tfsec (jon-stewart)([931444b](https://github.com/lacework/terraform-gcp-audit-log/commit/931444b15deb8b3d00946f60f85268ad43f21ba4))
-* ci: version bump to v3.4.4-dev (Lacework)([91cead5](https://github.com/lacework/terraform-gcp-audit-log/commit/91cead559ef636d53f7920846e907a976817fe19))
+* chore: major version bump to 4.0.0 (#88) (Salim Afiune)([6199748](https://github.com/lacework/terraform-gcp-audit-log/commit/61997480f8c19e99596fb714484e2be7e45b7111))
+* ci: version bump to v3.4.5-dev (Lacework)([3e7c3bd](https://github.com/lacework/terraform-gcp-audit-log/commit/3e7c3bd9e23d49efab8e3e2f00c8b20028ecb28e))
