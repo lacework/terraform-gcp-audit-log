@@ -96,6 +96,10 @@ locals {
       toset([])
     )
   ]
+
+  version_file   = "${abspath(path.module)}/VERSION"
+  module_name    = basename(abspath(path.module))
+  module_version = fileexists(local.version_file) ? file(local.version_file) : ""
 }
 
 resource "random_id" "uniq" {
@@ -293,4 +297,9 @@ resource "lacework_integration_gcp_at" "default" {
     private_key    = local.service_account_json_key.private_key
   }
   depends_on = [time_sleep.wait_time]
+}
+
+data "lacework_metric_module" "lwmetrics" {
+  name    = local.module_name
+  version = local.module_version
 }
