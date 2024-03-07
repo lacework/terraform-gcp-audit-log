@@ -7,5 +7,5 @@ on: workflow_dispatch
 
 jobs:
   call-nightly-workflow:
-    uses: lacework/oss-actions/.github/workflows/tf-nightly.yml@main
+    uses: lacework/oss-actions/.github/workflows/tf-nightly.yml@testing
     secrets: inherit
