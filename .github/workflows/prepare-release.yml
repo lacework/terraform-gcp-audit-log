@@ -1,4 +1,4 @@
-name: Nightly Build
+name: Prepare Release
 
 on: workflow_dispatch
 
