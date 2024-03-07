@@ -1,0 +1,8 @@
+name: Test Compatibility
+
+on: workflow_dispatch
+
+jobs:
+  call-nightly-workflow:
+    uses: lacework/oss-actions/.github/workflows/tf-test-compatibility.yml@main
+    secrets: inherit
