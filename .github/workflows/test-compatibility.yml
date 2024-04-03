@@ -8,6 +8,6 @@ on:
       - main
   
 jobs:
-  call-nightly-workflow:
+  call-test-compat:
     uses: lacework/oss-actions/.github/workflows/tf-test-compatibility.yml@main
     secrets: inherit
