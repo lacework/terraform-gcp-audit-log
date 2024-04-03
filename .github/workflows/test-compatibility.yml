@@ -9,5 +9,5 @@ on:
   
 jobs:
   call-test-compat:
-    uses: lacework/oss-actions/.github/workflows/tf-test-compatibility.yml@main
+    uses: lacework/oss-actions/.github/workflows/tf-test-compatibility.yml@testing
     secrets: inherit
