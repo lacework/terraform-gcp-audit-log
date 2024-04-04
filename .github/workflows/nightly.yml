@@ -1,9 +1,9 @@
 name: Nightly Build
 
-on: workflow_dispatch
-
-  # schedule:
-  #   - cron: '0 10 * * *' # Run every day at 10AM UTC
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: '0 10 * * *' # Run every day at 10AM UTC
 
 jobs:
   call-nightly-workflow:
